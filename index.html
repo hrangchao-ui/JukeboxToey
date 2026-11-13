@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#170d2b">\n<link rel="icon" type="image/png" sizes="32x32" href="assets/toeymusic-logo.png">\n<link rel="shortcut icon" href="favicon.ico">\n<link rel="apple-touch-icon" href="assets/toeymusic-logo.png">
+<title>ToeyMusic | Jukebox 80s</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+:root{--pink:#ff39d1;--cyan:#35dcff;--purple:#9d55ff;--bg:#100a20;--panel:rgba(28,17,48,.92);--line:rgba(87,218,255,.55);--muted:#c4b8d8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 25%,#48205d 0,#170e2a 48%,#090713 100%);color:#fff;font-family:Kanit,system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.17;background-image:linear-gradient(rgba(72,220,255,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(72,220,255,.22) 1px,transparent 1px);background-size:48px 48px;transform:perspective(500px) rotateX(58deg) scale(1.6);transform-origin:bottom;z-index:-1}
+.top{height:76px;display:flex;align-items:center;gap:22px;padding:10px 22px;background:rgba(15,8,29,.92);border-bottom:1px solid var(--cyan);box-shadow:0 0 22px #e52bc866;position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:12px;min-width:260px}.brandLogo{width:54px;height:54px;object-fit:cover;border-radius:13px;border:2px solid #ff39d1;box-shadow:0 0 12px #ff39d1aa}.brandIcon{font-size:34px;filter:drop-shadow(0 0 9px var(--pink));animation:blink 1.8s infinite}.brandName{font-size:25px;font-weight:700;color:#ff9be8;text-shadow:0 0 6px var(--pink),0 0 18px var(--pink);animation:flicker 4s infinite}.brand small{display:block;color:#c9b9df;font-size:11px;margin-top:-4px}
+nav{display:flex;gap:7px;flex:1;overflow:auto}nav button,.navBtn{white-space:nowrap;background:transparent;border:1px solid transparent;color:#eee;padding:9px 13px;border-radius:12px;font:inherit;cursor:pointer}nav button:hover,nav button.active{border-color:var(--pink);background:#8e1c8c66;box-shadow:0 0 14px #ff39d177}
+.layout{display:grid;grid-template-columns:265px minmax(380px,1fr) 330px;gap:16px;padding:16px;max-width:1700px;margin:auto}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 0 14px #35dcff35,inset 0 0 20px #8c3cff17;backdrop-filter:blur(12px)}
+.sidebar{padding:16px;height:calc(100vh - 110px);position:sticky;top:92px;overflow:auto}.search{width:100%;padding:11px 13px;border-radius:12px;border:1px solid #aa83d8;background:#241936;color:white;font:inherit;outline:none}.search:focus{border-color:var(--pink);box-shadow:0 0 10px #ff39d1}.menu{display:grid;gap:5px;margin:14px 0}.menu button{border:0;background:transparent;color:#eee;text-align:left;padding:10px;border-radius:10px;font:inherit;cursor:pointer}.menu button:hover,.menu button.active{background:linear-gradient(90deg,#b522a5aa,#462a75aa);box-shadow:0 0 12px #ff39d155}
+.sectionHead{display:flex;align-items:center;justify-content:space-between;font-weight:600;margin:15px 0 8px}.smallBtn,.action{border:1px solid #bd65dc;background:#51245f;color:#fff;border-radius:10px;padding:7px 11px;cursor:pointer;font:inherit}.smallBtn:hover,.action:hover{box-shadow:0 0 12px var(--pink)}.folderRow,.songRow{display:flex;align-items:center;gap:10px;padding:9px;border-bottom:1px solid #ffffff16;cursor:pointer}.folderRow:hover,.songRow:hover{background:#ffffff0d}.folderIcon{font-size:22px}.folderMeta{flex:1;min-width:0}.folderMeta b,.folderMeta small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.folderMeta small{color:var(--muted);font-size:11px}
+.center{min-width:0}.hero{min-height:540px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:16px}.hero:before{content:"";position:absolute;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,#ff39d13a,transparent 68%);animation:pulse 3s infinite}
+.jukebox{width:min(100%,470px);height:500px;position:relative;filter:drop-shadow(0 0 20px #ff39d1aa);animation:float 4s ease-in-out infinite}
+.jukeTop{position:absolute;left:8%;top:1%;width:84%;height:52%;border-radius:50% 50% 12% 12%/38% 38% 10% 10%;background:linear-gradient(110deg,#6b174f,#f94cbb 18%,#44165f 38%,#f9a4e8 52%,#43105d 72%,#ff4cbe);border:8px ridge #d4c8e9;box-shadow:inset 0 0 0 5px #30103d,0 0 0 5px #36ddff,0 0 24px #ff3bdc;display:flex;align-items:center;justify-content:flex-start;flex-direction:column;padding-top:48px;animation:neon 2.2s infinite alternate}
+.jukeTop:before{content:"";position:absolute;inset:13px;border:4px solid #ffb5ef;border-radius:50% 50% 10% 10%/38% 38% 10% 10%;box-shadow:0 0 12px #fff,0 0 22px var(--pink);pointer-events:none}
+.jukeName{font-size:clamp(26px,4vw,42px);font-weight:700;color:#fff;text-shadow:0 0 5px #fff,0 0 12px var(--pink),0 0 25px var(--pink);z-index:1;animation:flicker 3.5s infinite}
+.jukeSub{font-size:12px;color:#ffe6fb;text-shadow:0 0 8px var(--pink);z-index:1}
+.vinyl{width:150px;height:150px;border-radius:50%;margin-top:9px;background:repeating-radial-gradient(circle,#17121d 0 3px,#393040 4px 5px,#100d14 6px 8px);border:5px solid #d9d1e7;box-shadow:0 0 12px #35dcff;position:relative;animation:spin 6s linear infinite}
+.vinyl:after{content:"";position:absolute;inset:48px;border-radius:50%;background:radial-gradient(circle,#ffd5f5 0 7%,#f02eb6 8% 50%,#54165e 52%);border:3px solid #e6b6df}
+.jukeBody{position:absolute;top:48%;left:12%;width:76%;height:48%;border:8px ridge #c8c4d7;border-radius:12px 12px 35px 35px;background:linear-gradient(90deg,#451347,#e24eb1 8%,#381044 22%,#74205f 50%,#35103f 78%,#ee67c3 93%,#39113f);box-shadow:inset 0 0 0 5px #180c24,0 0 18px #35dcff}
+.jukeControls{position:absolute;top:9%;left:9%;right:9%;height:52%;display:grid;grid-template-columns:1fr 1fr;gap:7px;z-index:2}.jukeControls button{font:600 12px Kanit;background:linear-gradient(#ffd6f1,#d94aa9);border:2px solid #5a164e;color:#351039;border-radius:7px;box-shadow:0 2px 0 #41113d,0 0 9px #ff8de7;cursor:pointer}.jukeControls button:hover{transform:scale(1.04);filter:brightness(1.2)}
+.speaker{position:absolute;bottom:8%;left:13%;width:74%;height:32%;border:4px solid #e4b8df;border-radius:10px;background:repeating-linear-gradient(45deg,#29152d 0 5px,#a52e8c 6px 8px,#25122e 9px 13px);box-shadow:inset 0 0 15px #ff43d8,0 0 10px #ff43d8}
+.jukeBase{position:absolute;bottom:0;left:18%;width:64%;height:5%;border-radius:50%;background:#39dfff;filter:blur(13px);animation:pulse 1.6s infinite}
+.sidePanel{padding:14px;min-width:0}.nowArt{width:88px;height:88px;border-radius:12px;background:linear-gradient(140deg,#ff5dcf,#402d88 55%,#24d9ff);display:grid;place-items:center;font-size:36px;flex-shrink:0;box-shadow:0 0 12px #ff39d1}.nowInfo{min-width:0;flex:1}.nowInfo b{font-size:18px}.nowInfo small{display:block;color:var(--muted)}.nowTop{display:flex;gap:12px;align-items:center}.progress{width:100%;accent-color:var(--pink);margin:12px 0}.controls{display:flex;justify-content:space-around;align-items:center;gap:5px}.controls button{background:none;border:0;color:white;font-size:21px;cursor:pointer}.controls .play{width:52px;height:52px;border:2px solid var(--pink);border-radius:50%;font-size:22px;box-shadow:0 0 14px var(--pink);color:#fff}.volume{display:flex;align-items:center;gap:8px;margin-top:10px}.volume input{flex:1;accent-color:var(--pink)}
+.queue{margin-top:14px}.queue .songRow{padding:8px 2px}.cover{width:38px;height:38px;border-radius:8px;background:linear-gradient(135deg,#fa43c8,#252d82 65%,#31dcff);display:grid;place-items:center}.songRow .folderMeta b{font-size:13px}.songRow .folderMeta small{font-size:10px}.heart{background:none;border:0;color:#ffc4f3;font-size:19px;cursor:pointer}
+.bottom{grid-column:1/-1;padding:15px}.albumGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:10px}.album{border:1px solid #d65dd8;border-radius:12px;padding:9px;background:linear-gradient(145deg,#4b1d62,#17142d);cursor:pointer;min-width:0}.album:hover{box-shadow:0 0 14px var(--pink);transform:translateY(-2px)}.albumArt{height:92px;border-radius:8px;background:linear-gradient(135deg,#fa4ec7,#3b2c94 60%,#31dfff);display:grid;place-items:center;font-size:38px;margin-bottom:7px}.album b,.album small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.album small{color:var(--muted);font-size:11px}
+.contentView{display:none;padding:18px;min-height:540px}.contentView.active{display:block}.contentView h2{margin:0 0 15px;color:#ff9ce9;text-shadow:0 0 12px var(--pink)}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.listArea{max-height:440px;overflow:auto}.empty{padding:45px 10px;text-align:center;color:#c5b4d9}.hint{color:#bbaacb;font-size:12px;line-height:1.6}
+.modal{display:none;position:fixed;inset:0;background:#080511d9;z-index:50;align-items:center;justify-content:center;padding:15px}.modal.show{display:flex}.modalBox{width:min(440px,100%);padding:20px;background:#211431;border:1px solid var(--pink);border-radius:18px;box-shadow:0 0 25px #ff39d188}.modalBox input,.modalBox select{width:100%;padding:11px;margin:8px 0 14px;background:#100b1e;border:1px solid #7d58a2;color:white;border-radius:9px;font:inherit}.modalActions{display:flex;justify-content:flex-end;gap:8px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#351545;border:1px solid var(--cyan);padding:10px 18px;border-radius:12px;z-index:80;box-shadow:0 0 15px #35dcff77;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{50%{opacity:.55;transform:scale(1.06)}}@keyframes float{50%{transform:translateY(-7px)}}@keyframes blink{50%{opacity:.55}}@keyframes flicker{0%,18%,22%,55%,58%,100%{opacity:1}20%,56%{opacity:.72}}@keyframes neon{to{box-shadow:inset 0 0 0 5px #30103d,0 0 0 5px #ff39d1,0 0 35px #35dcff}}
+@media(max-width:1150px){.layout{grid-template-columns:220px minmax(300px,1fr)}.rightCol{grid-column:2}.sidebar{grid-row:1/3}.bottom{grid-column:1/-1}}
+@media(max-width:760px){.top{height:auto;flex-wrap:wrap;padding:10px}.brand{min-width:0;flex:1}.brandLogo{width:46px;height:46px}.brandName{font-size:21px}nav{order:3;flex-basis:100%}.layout{display:flex;flex-direction:column;padding:10px}.sidebar{position:static;height:auto}.sidebar .menu{grid-template-columns:repeat(2,1fr)}.hero{min-height:490px}.jukebox{height:460px}.rightCol{display:grid;grid-template-columns:1fr}.bottom{order:5}.contentView{min-height:350px}}
+
+/* ===== Layout refinement: match the supplied 80s jukebox reference ===== */
+body{
+ background:
+  radial-gradient(ellipse at 53% 38%,rgba(255,48,194,.23),transparent 35%),
+  radial-gradient(ellipse at 78% 28%,rgba(39,205,255,.18),transparent 30%),
+  linear-gradient(180deg,#170d28 0%,#291331 48%,#100a20 100%);
+}
+body:after{
+ content:"";position:fixed;left:0;right:0;bottom:0;height:28vh;z-index:-1;pointer-events:none;
+ background:
+  repeating-conic-gradient(from 45deg,rgba(255,255,255,.13) 0 25%,transparent 0 50%) 0 0/46px 46px,
+  linear-gradient(180deg,transparent,#090713 95%);
+ opacity:.42;transform:perspective(420px) rotateX(52deg);transform-origin:bottom;
+}
+.top{height:80px;padding:9px 28px;gap:20px;background:rgba(18,9,32,.96);box-shadow:0 2px 24px #f52acb55;border-bottom:2px solid #2edfff}
+.brand{min-width:330px}.brandLogo{width:58px;height:58px}.brandName{font-size:28px;letter-spacing:.2px}
+nav{justify-content:center;gap:9px}nav button{font-size:17px;padding:9px 14px}
+.layout{
+ grid-template-columns: minmax(300px,22%) minmax(470px,1fr) minmax(360px,28%);
+ grid-template-rows:minmax(610px,calc(100vh - 310px)) auto;
+ gap:16px 18px;padding:18px 20px;max-width:1800px;
+}
+.sidebar{height:calc(100vh - 116px);top:96px;padding:17px;border-radius:22px;border:2px solid #4adfff;box-shadow:0 0 18px #31dfff55,0 0 24px #e83bda55}
+.search{font-size:15px;padding:12px 14px;border:1px solid #c68bea;background:#342344}
+.menu{gap:6px;margin:15px 0}.menu button{font-size:16px;padding:10px 12px}.menu button.active{background:linear-gradient(90deg,#f02ab8,#7d258f);box-shadow:0 0 16px #ff38d1}
+.center{min-width:0;align-self:stretch}
+.hero{
+ min-height:610px;height:100%;border:0;background:
+  radial-gradient(ellipse at 50% 48%,rgba(247,54,199,.20),transparent 44%),
+  linear-gradient(180deg,rgba(39,15,55,.12),rgba(9,7,19,.15));
+ box-shadow:none;overflow:hidden;padding:10px;
+}
+.hero:before{width:580px;height:580px;background:radial-gradient(circle,#ff39d144 0,#35dcff22 38%,transparent 70%)}
+.hero:after{
+ content:"MUSIC\A 80s";white-space:pre;position:absolute;left:1%;top:24%;font-size:clamp(27px,3vw,50px);line-height:.98;font-weight:700;font-style:italic;
+ color:#ff64d9;text-shadow:0 0 6px #fff,0 0 15px #ff36d1,0 0 28px #ff36d1;transform:rotate(-9deg);opacity:.9;animation:flicker 3.1s infinite;pointer-events:none;
+}
+.jukebox{width:min(100%,560px);height:600px;transform:scale(.98);transform-origin:center;filter:drop-shadow(0 0 22px #ff39d1bb)}
+.jukeTop{height:53%;padding-top:53px;border-width:9px}
+.jukeName{font-size:clamp(30px,3.5vw,48px)}
+.vinyl{width:170px;height:170px}
+.vinyl:after{inset:55px}
+.jukeBody{top:48%;height:48%;border-width:9px}
+.jukeControls{top:8%;left:8%;right:8%;height:50%;gap:8px}
+.jukeControls button{font-size:14px;padding:7px 4px}
+.speaker{height:34%;bottom:7%}
+.rightCol{min-width:0;display:flex;flex-direction:column;gap:15px}
+.sidePanel{padding:17px;border-radius:20px;border:2px solid #45dfff;box-shadow:0 0 16px #2fdcff55,0 0 12px #ff3ad455}
+.nowArt{width:112px;height:112px;font-size:44px;border:1px solid #f875e4}
+.nowInfo b{font-size:20px}.nowInfo small{font-size:13px}
+.controls{margin-top:6px}.controls button{font-size:23px}.controls .play{width:60px;height:60px}
+.queue{flex:1;min-height:240px}.queue .songRow{padding:9px 2px}
+.bottom{grid-column:2/4;grid-row:2;padding:15px 18px;border:2px solid #e24dd6;box-shadow:0 0 18px #ff39d155;border-radius:20px}
+.albumGrid{grid-template-columns:repeat(7,minmax(0,1fr));gap:12px}
+.album{padding:9px;border:1px solid #e16adf;background:linear-gradient(145deg,#57206b,#17142d);box-shadow:inset 0 0 12px #ff39d122}
+.albumArt{height:104px;font-size:42px}
+.contentView{border-radius:20px;border:2px solid #45dfff}
+@media(max-width:1250px){
+ .layout{grid-template-columns:270px minmax(360px,1fr);grid-template-rows:auto auto auto}
+ .sidebar{grid-row:1/3}.rightCol{grid-column:2;display:grid;grid-template-columns:1fr 1fr}
+ .bottom{grid-column:2;grid-row:auto}.albumGrid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+ .hero{min-height:560px}.jukebox{transform:scale(.88)}
+}
+@media(max-width:800px){
+ .top{height:auto;flex-wrap:wrap;padding:10px 13px}.brand{min-width:0;flex:1}.brandLogo{width:46px;height:46px}.brandName{font-size:22px}
+ nav{order:3;flex-basis:100%;justify-content:flex-start}
+ .layout{display:flex;flex-direction:column;padding:10px}.sidebar{position:static;height:auto}
+ .hero{min-height:500px}.jukebox{height:490px;transform:scale(.82)}
+ .rightCol{display:flex}.bottom{order:5}.albumGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .albumArt{height:90px}
+}
+
+
+/* Reference artwork fidelity */
+.layout{grid-template-columns:minmax(300px,22%) minmax(470px,1fr) minmax(360px,28%);grid-template-rows:minmax(610px,calc(100vh - 310px)) auto;gap:16px 18px;padding:18px 20px;max-width:1800px}
+.hero{position:relative;padding:0;min-height:610px;height:100%;overflow:hidden;border:0;background:#1b1028;box-shadow:0 0 20px #ff39d144}
+.heroScene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.hero:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(15,8,30,.06),transparent 35%,transparent 75%,rgba(15,8,30,.05))}
+.hero:after{display:none}
+.hero .jukebox{display:none}
+.heroHotspots{position:absolute;z-index:3;left:29%;top:45%;width:44%;height:27%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);gap:3px}
+.heroHotspots button{border:1px solid transparent;background:transparent;border-radius:7px;cursor:pointer;transition:.15s}
+.heroHotspots button:hover{background:#ff45d944;border:1px solid #fff;box-shadow:0 0 16px #ff39d1}
+.nowArt{background-image:url('assets/now-playing.jpg');background-size:cover;background-position:center;font-size:0}
+.albumArt{height:104px;overflow:hidden;padding:0;background:#20132e}
+.albumArt img{width:100%;height:100%;object-fit:cover;display:block}
+.album:hover .albumArt img{transform:scale(1.04);transition:transform .2s}
+.album{overflow:hidden}
+@media(max-width:1250px){.hero{min-height:560px}.heroHotspots{top:45%;height:27%}}
+@media(max-width:800px){.hero{min-height:500px}.heroHotspots{top:45%;height:27%;left:29%;width:44%}}
+
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="brand"><img class="brandLogo" src="assets/toeymusic-logo.png" alt="ToeyMusic Logo"><div><div class="brandName">ToeyMusic</div><small>80s Jukebox • Music Library</small></div></div>
+ <nav id="topNav">
+  <button class="active" data-view="home">⌂ หน้าแรก</button><button data-view="songs">♫ เพลงทั้งหมด</button><button data-view="folders">▤ โฟลเดอร์เพลง</button><button data-view="playlists">☷ เพลย์ลิสต์</button><button data-view="favorites">♡ รายการโปรด</button>
+ </nav>
+ <button class="smallBtn" id="importTop">＋ เพิ่มเพลง</button>
+</header>
+<main class="layout">
+ <aside class="panel sidebar">
+  <input class="search" id="search" placeholder="⌕ ค้นหาเพลง ศิลปิน หรืออัลบั้ม...">
+  <div class="menu" id="sideMenu">
+   <button class="active" data-view="home">⌂ หน้าแรก</button><button data-view="songs">♫ เพลงทั้งหมด</button><button data-view="folders">📁 โฟลเดอร์เพลง</button><button data-view="playlists">☷ เพลย์ลิสต์ของฉัน</button><button data-view="favorites">♡ รายการโปรด</button><button data-view="albums">💿 อัลบั้ม</button><button data-view="artists">♟ ศิลปิน</button><button data-view="genres">♫ แนวเพลง</button><button data-view="radio">◉ วิทยุยุค 80</button>
+  </div>
+  <div class="sectionHead"><span>📁 โฟลเดอร์ของฉัน</span><button class="smallBtn" id="newFolder">＋</button></div>
+  <div id="folderMini"></div>
+  <p class="hint">เพลงที่เพิ่มจะถูกเก็บไว้ในเบราว์เซอร์เครื่องนี้โดยอัตโนมัติ สามารถจัดเพลงลงโฟลเดอร์ได้</p>
+ </aside>
+ <section class="center">
+  <section class="panel hero" id="homeHero">
+   <img class="heroScene" src="assets/jukebox-scene.jpg" alt="ตู้เพลงนีออน ร้านบ้านกำนัล ในบรรยากาศร้านยุค 80">
+   <div class="heroHotspots" aria-label="เลือกแนวเพลงจากตู้เพลง">
+    <button data-genre="ฮิตติดชาร์ต 80s" title="ฮิตติดชาร์ต 80s"></button>
+    <button data-genre="เพลงไทยยุค 80s" title="เพลงไทยยุค 80s"></button>
+    <button data-genre="เพลงรัก 80s" title="เพลงรัก 80s"></button>
+    <button data-genre="ร็อก 80s" title="ร็อก 80s"></button>
+    <button data-genre="แดนซ์-ดิสโก้ 80s" title="แดนซ์-ดิสโก้ 80s"></button>
+    <button data-genre="ป็อป 80s" title="ป็อป 80s"></button>
+    <button data-genre="สากลคลาสสิก" title="สากลคลาสสิก"></button>
+    <button data-genre="เพลงช้าอมตะ" title="เพลงช้าอมตะ"></button>
+   </div>
+  </section>
+  <section class="panel contentView" id="contentView"><h2 id="viewTitle">เพลงทั้งหมด</h2><div class="toolbar" id="viewToolbar"></div><div class="listArea" id="viewList"></div></section>
+ </section>
+ <aside class="rightCol">
+  <section class="panel sidePanel">
+   <div class="sectionHead">♫ กำลังเล่นอยู่ (Now Playing)</div>
+   <div class="nowTop"><div class="nowArt" id="nowArt">💿</div><div class="nowInfo"><b id="nowTitle">ยังไม่ได้เลือกเพลง</b><small id="nowArtist">เพิ่มเพลงของคุณเพื่อเริ่มฟัง</small><small id="nowAlbum">ร้านบ้านกำนัล • 80s</small></div><button class="heart" id="nowHeart">♡</button></div>
+   <input type="range" min="0" max="100" value="0" class="progress" id="seek">
+   <div style="display:flex;justify-content:space-between;font-size:11px;color:#c9badb"><span id="elapsed">0:00</span><span id="duration">0:00</span></div>
+   <div class="controls"><button id="shuffle" title="สุ่มเพลง">🔀</button><button id="prev">|◀</button><button class="play" id="play">▶</button><button id="next">▶|</button><button id="repeat" title="เล่นซ้ำ">🔁</button></div>
+   <div class="volume"><span>🔊</span><input type="range" min="0" max="1" step=".01" value=".8" id="volume"><span id="volLabel">80%</span></div>
+  </section>
+  <section class="panel sidePanel queue"><div class="sectionHead"><span>☷ รายการเพลงถัดไป</span><button class="smallBtn" id="playAll">เล่นทั้งหมด</button></div><div id="queueList" class="listArea"></div></section>
+ </aside>
+ <section class="panel bottom" id="albumsSection"><div class="sectionHead"><span>💿 อัลบั้มแนะนำ</span><button class="smallBtn" data-view="albums">ดูทั้งหมด ›</button></div><div class="albumGrid" id="albumGrid"></div></section>
+</main>
+<input type="file" id="audioFiles" accept="audio/*" multiple hidden>
+<div class="modal" id="modal"><div class="modalBox"><h3 id="modalTitle">สร้างโฟลเดอร์ใหม่</h3><label id="modalLabel">ชื่อโฟลเดอร์</label><input id="modalInput" placeholder="พิมพ์ชื่อที่ต้องการ"><div id="modalExtra"></div><div class="modalActions"><button class="smallBtn" id="cancelModal">ยกเลิก</button><button class="action" id="saveModal">บันทึก</button></div></div></div>
+<div class="toast" id="toast"></div>
+<audio id="audio"></audio>
+<script>
+const DB_NAME='baanKumnanJukeboxDB', DB_VERSION=1;
+const GENRES=['ฮิตติดชาร์ต 80s','เพลงไทยยุค 80s','เพลงรัก 80s','ร็อก 80s','แดนซ์-ดิสโก้ 80s','ป็อป 80s','สากลคลาสสิก','เพลงช้าอมตะ'];
+let db, tracks=[], folders=[], playlists=[], currentId=null, queue=[], queueIndex=0;
+let shuffleOn=false, repeatOn=false, currentView='home', modalAction=null, pendingFolder=null, pendingGenre=null, activeObjectUrl=null;
+const $=id=>document.getElementById(id), audio=$('audio');
+const albumCovers=['assets/album-1.jpg','assets/album-2.jpg','assets/album-3.jpg','assets/album-4.jpg','assets/album-5.jpg','assets/album-6.jpg','assets/album-7.jpg'];
+const icons=['🌴','💗','🪩','📼','💿','🎸','🌆','🎹'];
+function toast(msg){const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.style.display='none',2400)}
+function uid(){return crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(16).slice(2)}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmt(s){if(!isFinite(s))return'0:00';return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0')}
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=()=>{const d=req.result;['tracks','folders','playlists'].forEach(s=>{if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:'id'})})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+function all(store){return new Promise((res,rej)=>{const r=db.transaction(store).objectStore(store).getAll();r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function put(store,obj){return new Promise((res,rej)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(obj);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)})}
+function del(store,id){return new Promise((res,rej)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).delete(id);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)})}
+async function refresh(){tracks=await all('tracks');folders=await all('folders');playlists=await all('playlists');renderAll()}
+async function ensureDefaultFolders(){
+ const existing=new Set((await all('folders')).map(f=>f.name));
+ for(const name of [...GENRES,'เพลงยังไม่จัดหมวด']) if(!existing.has(name)) await put('folders',{id:uid(),name,system:true});
+}
+function renderAll(){renderFolders();renderAlbums();renderQueue();if(currentView!=='home')renderView(currentView);updateNow()}
+function renderFolders(){
+ const box=$('folderMini');box.innerHTML='';
+ if(!folders.length){box.innerHTML='<div class="hint">ยังไม่มีโฟลเดอร์ กด + เพื่อสร้าง</div>';return}
+ folders.forEach(f=>{const n=tracks.filter(t=>t.folderId===f.id).length;const el=document.createElement('div');el.className='folderRow';el.innerHTML=`<span class="folderIcon">📁</span><div class="folderMeta"><b>${esc(f.name)}</b><small>${n} เพลง</small></div><button class="heart" title="เปิดโฟลเดอร์">›</button>`;el.onclick=()=>renderFolderView(f.id);box.append(el)})
+}
+function renderAlbums(){
+ const box=$('albumGrid');box.innerHTML='';
+ const groups=[['เพลงทั้งหมด','💿',tracks.length],...GENRES.map((g,i)=>[g,icons[i],tracks.filter(t=>t.genre===g).length])];
+ groups.forEach((g,i)=>{const el=document.createElement('div');el.className='album';const cover=albumCovers[Math.min(i,albumCovers.length-1)];el.innerHTML=`<div class="albumArt"><img src="${cover}" alt=""></div><b>${esc(g[0])}</b><small>${g[2]} เพลง</small>`;el.onclick=()=>{if(i===0)showView('songs');else showGenre(g[0])};box.append(el)})
+}
+function songRow(t,idx){
+ const el=document.createElement('div');el.className='songRow';
+ el.innerHTML=`<span style="width:22px;color:#c9b4df">${idx+1}</span><div class="cover">🎵</div><div class="folderMeta"><b>${esc(t.title)}</b><small>${esc(t.artist||'ไม่ระบุศิลปิน')} • ${esc(t.album||'ไม่ระบุอัลบั้ม')}</small></div><small>${fmt(t.duration||0)}</small><button class="heart" title="รายการโปรด">${t.favorite?'♥':'♡'}</button><button class="heart" title="เมนูเพลง">⋮</button>`;
+ el.querySelector('.cover').onclick=()=>playTrack(t.id);el.querySelector('.folderMeta').onclick=()=>playTrack(t.id);
+ const [heart,more]=el.querySelectorAll('.heart');
+ heart.onclick=async e=>{e.stopPropagation();t.favorite=!t.favorite;await put('tracks',t);await refresh()};
+ more.onclick=e=>{e.stopPropagation();openTrackMenu(t)};return el
+}
+function showModal(title,label,value,save,extra='',afterSave=null,deleteFn=null){
+ $('modalTitle').textContent=title;$('modalLabel').textContent=label;$('modalInput').value=value||'';$('modalExtra').innerHTML=extra;$('modal').classList.add('show');
+ const delBtn=$('modalExtra').querySelector('[data-delete-track]');
+ if(delBtn)delBtn.onclick=()=>{if(confirm('ยืนยันลบเพลงนี้?'))deleteFn?.()};
+ modalAction=async()=>{const v=$('modalInput').value.trim();if(!v){toast('กรุณากรอกข้อมูล');return}await save(v);if(afterSave)await afterSave();$('modal').classList.remove('show')};
+}
+function openTrackMenu(t){
+ const extra=`<label>ศิลปิน</label><input id="extraArtist" value="${esc(t.artist||'')}" placeholder="ชื่อศิลปิน"><label>อัลบั้ม</label><input id="extraAlbum" value="${esc(t.album||'')}" placeholder="ชื่ออัลบั้ม"><label>แนวเพลง</label><select id="extraGenre">${GENRES.map(x=>`<option ${t.genre===x?'selected':''}>${x}</option>`).join('')}</select><label>โฟลเดอร์จัดเก็บ</label><select id="extraFolder"><option value="">เพลงยังไม่จัดหมวด</option>${folders.map(f=>`<option value="${f.id}" ${t.folderId===f.id?'selected':''}>${esc(f.name)}</option>`).join('')}</select><button class="smallBtn" data-delete-track style="margin-top:8px">ลบเพลงนี้</button>`;
+ showModal('จัดการเพลง','ชื่อเพลง',t.title,async name=>{t.title=name;t.artist=$('extraArtist').value.trim();t.album=$('extraAlbum').value.trim();t.genre=$('extraGenre').value;t.folderId=$('extraFolder').value||null;await put('tracks',t);await refresh();toast('บันทึกข้อมูลเพลงแล้ว')},extra,null,async()=>{await del('tracks',t.id);if(currentId===t.id){audio.pause();currentId=null;updateNow()}await refresh();$('modal').classList.remove('show');toast('ลบเพลงแล้ว')});
+}
+$('saveModal').onclick=()=>modalAction&&modalAction();$('cancelModal').onclick=()=>$('modal').classList.remove('show');
+function createFolder(){showModal('สร้างโฟลเดอร์ใหม่','ชื่อโฟลเดอร์','',async name=>{if(folders.some(f=>f.name.toLowerCase()===name.toLowerCase())){toast('มีโฟลเดอร์ชื่อนี้แล้ว');return}await put('folders',{id:uid(),name});await refresh();toast('สร้างโฟลเดอร์แล้ว')})}
+$('newFolder').onclick=createFolder;
+function showView(view){
+ currentView=view;document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
+ $('homeHero').style.display=view==='home'?'flex':'none';$('albumsSection').style.display=view==='home'?'block':'none';$('contentView').classList.toggle('active',view!=='home');
+ if(view!=='home')renderView(view);
+}
+function renderView(view){
+ const titles={songs:'♫ เพลงทั้งหมด',folders:'📁 โฟลเดอร์เพลง',playlists:'☷ เพลย์ลิสต์ของฉัน',favorites:'♡ รายการโปรด',albums:'💿 อัลบั้ม',artists:'♟ ศิลปิน',genres:'♫ แนวเพลง',radio:'◉ วิทยุยุค 80'};
+ $('viewTitle').textContent=titles[view]||'คลังเพลง';
+ const tb=$('viewToolbar');tb.innerHTML='';
+ const add=(label,fn)=>{const b=document.createElement('button');b.className='action';b.textContent=label;b.onclick=fn;tb.append(b)};
+ add('＋ เพิ่มเพลง',()=>{pendingFolder=null;pendingGenre=null;$('audioFiles').click()});
+ add('📁 สร้างโฟลเดอร์',createFolder);
+ if(view==='playlists')add('＋ สร้างเพลย์ลิสต์',createPlaylist);
+ if(view==='radio')add('▶ เริ่มวิทยุสุ่มเพลง',startRadio);
+ if(view==='folders')add('＋ สร้างโฟลเดอร์',createFolder);
+ const list=$('viewList');list.innerHTML='';
+ if(view==='songs')renderSongList(tracks,list);
+ else if(view==='favorites')renderSongList(tracks.filter(t=>t.favorite),list);
+ else if(view==='folders'){
+  folders.forEach(f=>{const d=document.createElement('div');d.className='songRow';d.innerHTML=`📁 <div class="folderMeta"><b>${esc(f.name)}</b><small>${tracks.filter(t=>t.folderId===f.id).length} เพลง</small></div><button class="smallBtn">เปิด</button><button class="smallBtn">แก้ไข</button><button class="smallBtn">ลบ</button>`;const bs=d.querySelectorAll('button');bs[0].onclick=()=>renderFolderView(f.id);bs[1].onclick=()=>showModal('เปลี่ยนชื่อโฟลเดอร์','ชื่อใหม่',f.name,async n=>{f.name=n;await put('folders',f);await refresh()});bs[2].onclick=async()=>{if(confirm('ลบโฟลเดอร์นี้? เพลงจะยังอยู่ในคลังเพลง')){for(const t of tracks.filter(t=>t.folderId===f.id)){t.folderId=null;await put('tracks',t)}await del('folders',f.id);await refresh()}};list.append(d)})
+ }else if(view==='playlists'){
+  playlists.forEach(p=>{const d=document.createElement('div');d.className='songRow';d.innerHTML=`☷ <div class="folderMeta"><b>${esc(p.name)}</b><small>${p.trackIds.length} เพลง</small></div><button class="smallBtn">เปิด</button><button class="smallBtn">ลบ</button>`;const bs=d.querySelectorAll('button');bs[0].onclick=()=>renderPlaylist(p.id);bs[1].onclick=async()=>{if(confirm('ลบเพลย์ลิสต์นี้?')){await del('playlists',p.id);await refresh()}};list.append(d)})
+ }else if(view==='albums'){
+  const names=[...new Set(tracks.map(t=>t.album||'ไม่ระบุอัลบั้ม'))];names.forEach(n=>{const d=document.createElement('div');d.className='songRow';d.textContent='💿 '+n;d.onclick=()=>renderSongList(tracks.filter(t=>(t.album||'ไม่ระบุอัลบั้ม')===n),list);list.append(d)})
+ }else if(view==='artists'){
+  [...new Set(tracks.map(t=>t.artist||'ไม่ระบุศิลปิน'))].forEach(n=>{const d=document.createElement('div');d.className='songRow';d.textContent='♟ '+n;d.onclick=()=>renderSongList(tracks.filter(t=>(t.artist||'ไม่ระบุศิลปิน')===n),list);list.append(d)})
+ }else if(view==='genres'){
+  [...new Set([...GENRES,...tracks.map(t=>t.genre||'ไม่ระบุแนวเพลง')])].forEach(n=>{const d=document.createElement('div');d.className='songRow';d.textContent='♫ '+n+' · '+tracks.filter(t=>t.genre===n).length+' เพลง';d.onclick=()=>showGenre(n);list.append(d)})
+ }else if(view==='radio'){list.innerHTML='<div class="empty">เปิดโหมดวิทยุยุค 80 สุ่มเพลงจากคลังเพลงของคุณ</div>'}
+ if(!list.children.length)list.innerHTML='<div class="empty">ยังไม่มีข้อมูลในส่วนนี้<br>กด “เพิ่มเพลง” หรือสร้างโฟลเดอร์เพื่อเริ่มต้น</div>';
+}
+function renderSongList(items,container){container.innerHTML='';if(!items.length){container.innerHTML='<div class="empty">ยังไม่มีเพลงในรายการนี้<br>กด “เพิ่มเพลง” เพื่อเลือกไฟล์เพลงจากอุปกรณ์</div>';return}items.forEach((t,i)=>container.append(songRow(t,i)))}
+function renderFolderView(id){
+ const f=folders.find(x=>x.id===id);if(!f)return;showView('folders');$('viewTitle').textContent='📁 '+f.name;$('viewToolbar').innerHTML='';
+ const add=document.createElement('button');add.className='action';add.textContent='＋ เพิ่มเพลงเข้าโฟลเดอร์';add.onclick=()=>{pendingFolder=id;pendingGenre=null;$('audioFiles').click()};$('viewToolbar').append(add);
+ const makeFolder=document.createElement('button');makeFolder.className='smallBtn';makeFolder.textContent='📁 สร้างโฟลเดอร์';makeFolder.onclick=createFolder;$('viewToolbar').append(makeFolder);
+ const back=document.createElement('button');back.className='smallBtn';back.textContent='← กลับไปโฟลเดอร์';back.onclick=()=>renderView('folders');$('viewToolbar').append(back);
+ renderSongList(tracks.filter(t=>t.folderId===id),$('viewList'));
+}
+function createPlaylist(){showModal('สร้างเพลย์ลิสต์','ชื่อเพลย์ลิสต์','',async name=>{await put('playlists',{id:uid(),name,trackIds:[]});await refresh();toast('สร้างเพลย์ลิสต์แล้ว')})}
+function renderPlaylist(id){
+ const p=playlists.find(x=>x.id===id);if(!p)return;showView('playlists');$('viewTitle').textContent='☷ '+p.name;$('viewToolbar').innerHTML='';
+ const add=document.createElement('button');add.className='action';add.textContent='＋ เพิ่มเพลงในเพลย์ลิสต์';add.onclick=()=>{
+  const choices=tracks.filter(t=>!p.trackIds.includes(t.id));if(!choices.length)return toast('ไม่มีเพลงให้เพิ่ม');
+  const opts=choices.map(t=>`<option value="${t.id}">${esc(t.title)} — ${esc(t.artist||'')}</option>`).join('');
+  showModal('เพิ่มเพลงในเพลย์ลิสต์','ชื่อรายการ','เพิ่มเพลง',async()=>{},`<select id="chooseTrack">${opts}</select>`,async()=>{const trackId=$('chooseTrack').value;if(trackId&&!p.trackIds.includes(trackId))p.trackIds.push(trackId);await put('playlists',p);renderPlaylist(p.id)});
+ };$('viewToolbar').append(add);
+ const allBtn=document.createElement('button');allBtn.className='smallBtn';allBtn.textContent='▶ เล่นเพลย์ลิสต์';allBtn.onclick=()=>{queue=p.trackIds.slice();queueIndex=0;if(queue.length)playTrack(queue[0]);else toast('เพลย์ลิสต์ยังไม่มีเพลง')};$('viewToolbar').append(allBtn);
+ renderSongList(p.trackIds.map(tid=>tracks.find(t=>t.id===tid)).filter(Boolean),$('viewList'));
+}
+function showGenre(g){showView('genres');$('viewTitle').textContent='♫ '+g;$('viewToolbar').innerHTML='';const b=document.createElement('button');b.className='action';b.textContent='＋ เพิ่มเพลงในหมวดนี้';b.onclick=()=>{pendingGenre=g;pendingFolder=folders.find(f=>f.name===g)?.id||null;$('audioFiles').click()};$('viewToolbar').append(b);const back=document.createElement('button');back.className='smallBtn';back.textContent='← กลับไปแนวเพลง';back.onclick=()=>renderView('genres');$('viewToolbar').append(back);renderSongList(tracks.filter(t=>t.genre===g),$('viewList'))}
+let activeGenre=null;
+function startRadio(){if(!tracks.length)return toast('กรุณาเพิ่มเพลงก่อน');queue=[...tracks].sort(()=>Math.random()-.5).map(t=>t.id);queueIndex=0;playTrack(queue[0]);toast('เริ่มวิทยุสุ่มเพลงแล้ว')}
+$('audioFiles').onchange=async e=>{
+ const files=[...e.target.files];let count=0;
+ for(const file of files){
+  if(!file.type.startsWith('audio/'))continue;
+  const url=URL.createObjectURL(file);
+  const duration=await new Promise(resolve=>{const a=new Audio();a.preload='metadata';a.onloadedmetadata=()=>resolve(a.duration||0);a.onerror=()=>resolve(0);a.src=url});
+  URL.revokeObjectURL(url);
+  const genre=pendingGenre||'เพลงไทยยุค 80s';
+  let folderId=pendingFolder||folders.find(f=>f.name===genre)?.id||folders.find(f=>f.name==='เพลงยังไม่จัดหมวด')?.id||null;
+  await put('tracks',{id:uid(),title:file.name.replace(/\.[^.]+$/,''),artist:'',album:'',genre,duration,folderId,favorite:false,blob:file,mime:file.type});count++;
+ }
+ pendingFolder=null;pendingGenre=null;e.target.value='';await refresh();toast(`เพิ่มเพลง ${count} ไฟล์แล้ว`);
+};
+$('importTop').onclick=()=>{pendingFolder=null;pendingGenre=null;$('audioFiles').click()};
+function updateNow(){const t=tracks.find(x=>x.id===currentId);$('nowTitle').textContent=t?.title||'ยังไม่ได้เลือกเพลง';$('nowArtist').textContent=t?.artist||'เพิ่มเพลงของคุณเพื่อเริ่มฟัง';$('nowAlbum').textContent=t?.album||'ToeyMusic • 80s';$('nowHeart').textContent=t?.favorite?'♥':'♡';$('play').textContent=audio.paused?'▶':'Ⅱ'}
+async function playTrack(id){
+ const t=tracks.find(x=>x.id===id);if(!t)return;currentId=id;if(!queue.length)queue=tracks.map(x=>x.id);queueIndex=queue.indexOf(id);if(queueIndex<0){queue.push(id);queueIndex=queue.length-1}
+ if(activeObjectUrl)URL.revokeObjectURL(activeObjectUrl);activeObjectUrl=URL.createObjectURL(t.blob);audio.src=activeObjectUrl;audio.volume=+$('volume').value;
+ try{await audio.play()}catch(e){toast('เบราว์เซอร์ไม่สามารถเล่นไฟล์นี้ได้')}updateNow();renderQueue()
+}
+function renderQueue(){
+ const box=$('queueList');box.innerHTML='';const ids=queue.length?queue:tracks.slice(0,5).map(t=>t.id);
+ ids.slice(0,8).forEach((id,i)=>{const t=tracks.find(x=>x.id===id);if(!t)return;const d=document.createElement('div');d.className='songRow';d.innerHTML=`<span>${i+1}</span><div class="cover">🎵</div><div class="folderMeta"><b>${esc(t.title)}</b><small>${esc(t.artist||'ไม่ระบุศิลปิน')}</small></div><button class="heart">${t.favorite?'♥':'♡'}</button>`;d.querySelector('.folderMeta').onclick=()=>playTrack(id);d.querySelector('.cover').onclick=()=>playTrack(id);d.querySelector('.heart').onclick=async()=>{t.favorite=!t.favorite;await put('tracks',t);await refresh()};box.append(d)})
+}
+$('play').onclick=()=>{if(!currentId){if(tracks.length)playTrack(tracks[0].id);else toast('กรุณาเพิ่มเพลงก่อน');return}if(audio.paused)audio.play().catch(()=>toast('ไม่สามารถเล่นเพลงนี้ได้'));else audio.pause();updateNow()};
+$('prev').onclick=()=>step(-1);$('next').onclick=()=>step(1);
+function step(dir){if(!queue.length)queue=tracks.map(t=>t.id);if(!queue.length)return toast('ยังไม่มีเพลง');if(shuffleOn&&dir>0)queueIndex=Math.floor(Math.random()*queue.length);else queueIndex=(queueIndex+dir+queue.length)%queue.length;playTrack(queue[queueIndex])}
+$('shuffle').onclick=()=>{shuffleOn=!shuffleOn;$('shuffle').style.color=shuffleOn?'#ff55d7':'white';toast(shuffleOn?'เปิดสุ่มเพลง':'ปิดสุ่มเพลง')};
+$('repeat').onclick=()=>{repeatOn=!repeatOn;$('repeat').style.color=repeatOn?'#ff55d7':'white';toast(repeatOn?'เปิดเล่นซ้ำเพลงปัจจุบัน':'ปิดเล่นซ้ำ')};
+$('nowHeart').onclick=async()=>{const t=tracks.find(x=>x.id===currentId);if(!t)return;t.favorite=!t.favorite;await put('tracks',t);await refresh()};
+$('volume').oninput=e=>{audio.volume=+e.target.value;$('volLabel').textContent=Math.round(audio.volume*100)+'%'};
+audio.ontimeupdate=()=>{if(audio.duration){$('seek').value=audio.currentTime/audio.duration*100;$('elapsed').textContent=fmt(audio.currentTime);$('duration').textContent=fmt(audio.duration)}};
+$('seek').oninput=e=>{if(audio.duration)audio.currentTime=audio.duration*(+e.target.value/100)};
+audio.onplay=updateNow;audio.onpause=updateNow;audio.onended=()=>{if(repeatOn){audio.currentTime=0;audio.play()}else step(1)};
+$('playAll').onclick=()=>{if(!tracks.length)return toast('ยังไม่มีเพลง');queue=tracks.map(t=>t.id);queueIndex=0;playTrack(queue[0])};
+$('search').oninput=e=>{
+ const q=e.target.value.toLowerCase().trim();if(!q){if(currentView!=='home')renderView(currentView);return}
+ showView('songs');$('viewTitle').textContent='ผลการค้นหา';$('viewToolbar').innerHTML='';$('viewList').innerHTML='';
+ renderSongList(tracks.filter(t=>[t.title,t.artist,t.album,t.genre].join(' ').toLowerCase().includes(q)),$('viewList'));
+};
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+document.querySelectorAll('[data-genre]').forEach(b=>b.addEventListener('click',()=>showGenre(b.dataset.genre)));
+async function init(){
+ try{db=await openDB();await ensureDefaultFolders();await refresh();queue=tracks.map(t=>t.id);updateNow()}
+ catch(e){console.error(e);toast('ไม่สามารถเปิดคลังเพลงได้ กรุณาใช้ Chrome หรือ Edge')}
+}
+init();
+</script>
+</body></html>
