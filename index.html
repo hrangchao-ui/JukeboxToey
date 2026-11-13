@@ -3,15 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#170d2b">\n<link rel="icon" type="image/png" sizes="32x32" href="assets/toeymusic-logo.png">\n<link rel="shortcut icon" href="favicon.ico">\n<link rel="apple-touch-icon" href="assets/toeymusic-logo.png">
+<meta name="theme-color" content="#170d2b">
 <title>ToeyMusic | Jukebox 80s</title>
+<link rel="icon" type="image/png" href="assets/favicon.png"><link rel="shortcut icon" href="assets/favicon.ico">
+<meta name="description" content="ToeyMusic Jukebox 80s - คลังเพลงออนไลน์ ฟังเพลงและค้นหาเพลงยุค 80s">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
 :root{--pink:#ff39d1;--cyan:#35dcff;--purple:#9d55ff;--bg:#100a20;--panel:rgba(28,17,48,.92);--line:rgba(87,218,255,.55);--muted:#c4b8d8}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 25%,#48205d 0,#170e2a 48%,#090713 100%);color:#fff;font-family:Kanit,system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
 body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.17;background-image:linear-gradient(rgba(72,220,255,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(72,220,255,.22) 1px,transparent 1px);background-size:48px 48px;transform:perspective(500px) rotateX(58deg) scale(1.6);transform-origin:bottom;z-index:-1}
 .top{height:76px;display:flex;align-items:center;gap:22px;padding:10px 22px;background:rgba(15,8,29,.92);border-bottom:1px solid var(--cyan);box-shadow:0 0 22px #e52bc866;position:sticky;top:0;z-index:20}
-.brand{display:flex;align-items:center;gap:12px;min-width:260px}.brandLogo{width:54px;height:54px;object-fit:cover;border-radius:13px;border:2px solid #ff39d1;box-shadow:0 0 12px #ff39d1aa}.brandIcon{font-size:34px;filter:drop-shadow(0 0 9px var(--pink));animation:blink 1.8s infinite}.brandName{font-size:25px;font-weight:700;color:#ff9be8;text-shadow:0 0 6px var(--pink),0 0 18px var(--pink);animation:flicker 4s infinite}.brand small{display:block;color:#c9b9df;font-size:11px;margin-top:-4px}
+.brand{display:flex;align-items:center;gap:12px;min-width:260px}.brandIcon{font-size:34px;filter:drop-shadow(0 0 9px var(--pink));animation:blink 1.8s infinite}.brandName{font-size:25px;font-weight:700;color:#ff9be8;text-shadow:0 0 6px var(--pink),0 0 18px var(--pink);animation:flicker 4s infinite}.brand small{display:block;color:#c9b9df;font-size:11px;margin-top:-4px}
 nav{display:flex;gap:7px;flex:1;overflow:auto}nav button,.navBtn{white-space:nowrap;background:transparent;border:1px solid transparent;color:#eee;padding:9px 13px;border-radius:12px;font:inherit;cursor:pointer}nav button:hover,nav button.active{border-color:var(--pink);background:#8e1c8c66;box-shadow:0 0 14px #ff39d177}
 .layout{display:grid;grid-template-columns:265px minmax(380px,1fr) 330px;gap:16px;padding:16px;max-width:1700px;margin:auto}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 0 14px #35dcff35,inset 0 0 20px #8c3cff17;backdrop-filter:blur(12px)}
@@ -37,7 +40,7 @@ nav{display:flex;gap:7px;flex:1;overflow:auto}nav button,.navBtn{white-space:now
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#351545;border:1px solid var(--cyan);padding:10px 18px;border-radius:12px;z-index:80;box-shadow:0 0 15px #35dcff77;display:none}
 @keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{50%{opacity:.55;transform:scale(1.06)}}@keyframes float{50%{transform:translateY(-7px)}}@keyframes blink{50%{opacity:.55}}@keyframes flicker{0%,18%,22%,55%,58%,100%{opacity:1}20%,56%{opacity:.72}}@keyframes neon{to{box-shadow:inset 0 0 0 5px #30103d,0 0 0 5px #ff39d1,0 0 35px #35dcff}}
 @media(max-width:1150px){.layout{grid-template-columns:220px minmax(300px,1fr)}.rightCol{grid-column:2}.sidebar{grid-row:1/3}.bottom{grid-column:1/-1}}
-@media(max-width:760px){.top{height:auto;flex-wrap:wrap;padding:10px}.brand{min-width:0;flex:1}.brandLogo{width:46px;height:46px}.brandName{font-size:21px}nav{order:3;flex-basis:100%}.layout{display:flex;flex-direction:column;padding:10px}.sidebar{position:static;height:auto}.sidebar .menu{grid-template-columns:repeat(2,1fr)}.hero{min-height:490px}.jukebox{height:460px}.rightCol{display:grid;grid-template-columns:1fr}.bottom{order:5}.contentView{min-height:350px}}
+@media(max-width:760px){.top{height:auto;flex-wrap:wrap;padding:10px}.brand{min-width:0;flex:1}.brandName{font-size:21px}nav{order:3;flex-basis:100%}.layout{display:flex;flex-direction:column;padding:10px}.sidebar{position:static;height:auto}.sidebar .menu{grid-template-columns:repeat(2,1fr)}.hero{min-height:490px}.jukebox{height:460px}.rightCol{display:grid;grid-template-columns:1fr}.bottom{order:5}.contentView{min-height:350px}}
 
 /* ===== Layout refinement: match the supplied 80s jukebox reference ===== */
 body{
@@ -54,7 +57,7 @@ body:after{
  opacity:.42;transform:perspective(420px) rotateX(52deg);transform-origin:bottom;
 }
 .top{height:80px;padding:9px 28px;gap:20px;background:rgba(18,9,32,.96);box-shadow:0 2px 24px #f52acb55;border-bottom:2px solid #2edfff}
-.brand{min-width:330px}.brandLogo{width:58px;height:58px}.brandName{font-size:28px;letter-spacing:.2px}
+.brand{min-width:330px}.brandIcon{font-size:42px}.brandName{font-size:28px;letter-spacing:.2px}
 nav{justify-content:center;gap:9px}nav button{font-size:17px;padding:9px 14px}
 .layout{
  grid-template-columns: minmax(300px,22%) minmax(470px,1fr) minmax(360px,28%);
@@ -103,7 +106,7 @@ nav{justify-content:center;gap:9px}nav button{font-size:17px;padding:9px 14px}
  .hero{min-height:560px}.jukebox{transform:scale(.88)}
 }
 @media(max-width:800px){
- .top{height:auto;flex-wrap:wrap;padding:10px 13px}.brand{min-width:0;flex:1}.brandLogo{width:46px;height:46px}.brandName{font-size:22px}
+ .top{height:auto;flex-wrap:wrap;padding:10px 13px}.brand{min-width:0;flex:1}.brandName{font-size:22px}
  nav{order:3;flex-basis:100%;justify-content:flex-start}
  .layout{display:flex;flex-direction:column;padding:10px}.sidebar{position:static;height:auto}
  .hero{min-height:500px}.jukebox{height:490px;transform:scale(.82)}
@@ -134,11 +137,11 @@ nav{justify-content:center;gap:9px}nav button{font-size:17px;padding:9px 14px}
 </head>
 <body>
 <header class="top">
- <div class="brand"><img class="brandLogo" src="assets/toeymusic-logo.png" alt="ToeyMusic Logo"><div><div class="brandName">ToeyMusic</div><small>80s Jukebox • Music Library</small></div></div>
+ <div class="brand"><img src="assets/toeymusic-logo.png" alt="ToeyMusic" style="width:52px;height:52px;object-fit:cover;border-radius:13px;border:2px solid #ff39d1;box-shadow:0 0 12px #ff39d1"><div><div class="brandName">ToeyMusic</div><small>ตู้เพลงยุค 80 • ฟังเพลงฮิต • สร้างเพลย์ลิสต์ของคุณ</small></div></div>
  <nav id="topNav">
   <button class="active" data-view="home">⌂ หน้าแรก</button><button data-view="songs">♫ เพลงทั้งหมด</button><button data-view="folders">▤ โฟลเดอร์เพลง</button><button data-view="playlists">☷ เพลย์ลิสต์</button><button data-view="favorites">♡ รายการโปรด</button>
  </nav>
- <button class="smallBtn" id="importTop">＋ เพิ่มเพลง</button>
+ <button class="smallBtn" id="cloudLogin">เข้าสู่ระบบผู้ดูแล</button><button class="smallBtn" id="importTop">＋ เพิ่มเพลง</button>
 </header>
 <main class="layout">
  <aside class="panel sidebar">
@@ -148,7 +151,7 @@ nav{justify-content:center;gap:9px}nav button{font-size:17px;padding:9px 14px}
   </div>
   <div class="sectionHead"><span>📁 โฟลเดอร์ของฉัน</span><button class="smallBtn" id="newFolder">＋</button></div>
   <div id="folderMini"></div>
-  <p class="hint">เพลงที่เพิ่มจะถูกเก็บไว้ในเบราว์เซอร์เครื่องนี้โดยอัตโนมัติ สามารถจัดเพลงลงโฟลเดอร์ได้</p>
+  <p class="hint" id="storageHint">คลังเพลงส่วนกลาง ToeyMusic • ผู้ดูแลระบบสามารถเพิ่มเพลงและจัดการโฟลเดอร์ได้</p>
  </aside>
  <section class="center">
   <section class="panel hero" id="homeHero">
@@ -185,156 +188,92 @@ nav{justify-content:center;gap:9px}nav button{font-size:17px;padding:9px 14px}
 <audio id="audio"></audio>
 <script>
 const DB_NAME='baanKumnanJukeboxDB', DB_VERSION=1;
-const GENRES=['ฮิตติดชาร์ต 80s','เพลงไทยยุค 80s','เพลงรัก 80s','ร็อก 80s','แดนซ์-ดิสโก้ 80s','ป็อป 80s','สากลคลาสสิก','เพลงช้าอมตะ'];
-let db, tracks=[], folders=[], playlists=[], currentId=null, queue=[], queueIndex=0;
-let shuffleOn=false, repeatOn=false, currentView='home', modalAction=null, pendingFolder=null, pendingGenre=null, activeObjectUrl=null;
+let db, tracks=[], folders=[], playlists=[], currentId=null, queue=[], queueIndex=0, shuffleOn=false, repeatOn=false, currentView='home', modalAction=null;
 const $=id=>document.getElementById(id), audio=$('audio');
-const albumCovers=['assets/album-1.jpg','assets/album-2.jpg','assets/album-3.jpg','assets/album-4.jpg','assets/album-5.jpg','assets/album-6.jpg','assets/album-7.jpg'];
+const cloudConfig=window.TOEYMUSIC_SUPABASE||{};
+const cloudConfigured=!!(cloudConfig.url&&cloudConfig.anonKey&&window.supabase);
+const sb=cloudConfigured?window.supabase.createClient(cloudConfig.url,cloudConfig.anonKey):null;
+let cloudSession=null,isAdmin=false;
+const favoriteKey='toeymusic-favorites-v1';
+function localFavoriteIds(){try{return JSON.parse(localStorage.getItem(favoriteKey)||'[]')}catch{return []}}
+function saveFavoriteIds(ids){localStorage.setItem(favoriteKey,JSON.stringify(ids))}
+function applyLocalFavorites(items){const ids=localFavoriteIds();return items.map(t=>({...t,favorite:ids.includes(t.id)}))}
+async function setFavorite(t){const ids=localFavoriteIds();saveFavoriteIds(ids.includes(t.id)?ids.filter(x=>x!==t.id):[...ids,t.id]);await refresh();updateNow()}
 const icons=['🌴','💗','🪩','📼','💿','🎸','🌆','🎹'];
+const albumCovers=['assets/album-1.jpg','assets/album-2.jpg','assets/album-3.jpg','assets/album-4.jpg','assets/album-5.jpg','assets/album-6.jpg','assets/album-7.jpg'];
 function toast(msg){const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.style.display='none',2400)}
-function uid(){return crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(16).slice(2)}
-function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function fmt(s){if(!isFinite(s))return'0:00';return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0')}
-function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=()=>{const d=req.result;['tracks','folders','playlists'].forEach(s=>{if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:'id'})})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
-function all(store){return new Promise((res,rej)=>{const r=db.transaction(store).objectStore(store).getAll();r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
-function put(store,obj){return new Promise((res,rej)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(obj);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)})}
-function del(store,id){return new Promise((res,rej)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).delete(id);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)})}
-async function refresh(){tracks=await all('tracks');folders=await all('folders');playlists=await all('playlists');renderAll()}
-async function ensureDefaultFolders(){
- const existing=new Set((await all('folders')).map(f=>f.name));
- for(const name of [...GENRES,'เพลงยังไม่จัดหมวด']) if(!existing.has(name)) await put('folders',{id:uid(),name,system:true});
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains('tracks'))d.createObjectStore('tracks',{keyPath:'id'});if(!d.objectStoreNames.contains('folders'))d.createObjectStore('folders',{keyPath:'id'});if(!d.objectStoreNames.contains('playlists'))d.createObjectStore('playlists',{keyPath:'id'});};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+function localAll(store){return new Promise((res,rej)=>{const r=db.transaction(store).objectStore(store).getAll();r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function all(store){
+ if(cloudConfigured&&(store==='tracks'||store==='folders')){const {data,error}=await sb.from(store).select('*').order('created_at',{ascending:true});if(error)throw error;
+  if(store==='tracks')return applyLocalFavorites((data||[]).map(r=>({id:r.id,title:r.title,artist:r.artist||'',album:r.album||'',genre:r.genre||'',duration:Number(r.duration||0),folderId:r.folder_id||null,audio_path:r.audio_path,mime:r.mime_type||'audio/mpeg',favorite:false})));
+  return (data||[]).map(r=>({id:r.id,name:r.name}));}
+ const localRows=await localAll(store);return store==='tracks'?applyLocalFavorites(localRows):localRows;
 }
-function renderAll(){renderFolders();renderAlbums();renderQueue();if(currentView!=='home')renderView(currentView);updateNow()}
-function renderFolders(){
- const box=$('folderMini');box.innerHTML='';
- if(!folders.length){box.innerHTML='<div class="hint">ยังไม่มีโฟลเดอร์ กด + เพื่อสร้าง</div>';return}
- folders.forEach(f=>{const n=tracks.filter(t=>t.folderId===f.id).length;const el=document.createElement('div');el.className='folderRow';el.innerHTML=`<span class="folderIcon">📁</span><div class="folderMeta"><b>${esc(f.name)}</b><small>${n} เพลง</small></div><button class="heart" title="เปิดโฟลเดอร์">›</button>`;el.onclick=()=>renderFolderView(f.id);box.append(el)})
-}
-function renderAlbums(){
- const box=$('albumGrid');box.innerHTML='';
- const groups=[['เพลงทั้งหมด','💿',tracks.length],...GENRES.map((g,i)=>[g,icons[i],tracks.filter(t=>t.genre===g).length])];
- groups.forEach((g,i)=>{const el=document.createElement('div');el.className='album';const cover=albumCovers[Math.min(i,albumCovers.length-1)];el.innerHTML=`<div class="albumArt"><img src="${cover}" alt=""></div><b>${esc(g[0])}</b><small>${g[2]} เพลง</small>`;el.onclick=()=>{if(i===0)showView('songs');else showGenre(g[0])};box.append(el)})
-}
-function songRow(t,idx){
- const el=document.createElement('div');el.className='songRow';
- el.innerHTML=`<span style="width:22px;color:#c9b4df">${idx+1}</span><div class="cover">🎵</div><div class="folderMeta"><b>${esc(t.title)}</b><small>${esc(t.artist||'ไม่ระบุศิลปิน')} • ${esc(t.album||'ไม่ระบุอัลบั้ม')}</small></div><small>${fmt(t.duration||0)}</small><button class="heart" title="รายการโปรด">${t.favorite?'♥':'♡'}</button><button class="heart" title="เมนูเพลง">⋮</button>`;
- el.querySelector('.cover').onclick=()=>playTrack(t.id);el.querySelector('.folderMeta').onclick=()=>playTrack(t.id);
- const [heart,more]=el.querySelectorAll('.heart');
- heart.onclick=async e=>{e.stopPropagation();t.favorite=!t.favorite;await put('tracks',t);await refresh()};
- more.onclick=e=>{e.stopPropagation();openTrackMenu(t)};return el
-}
-function showModal(title,label,value,save,extra='',afterSave=null,deleteFn=null){
- $('modalTitle').textContent=title;$('modalLabel').textContent=label;$('modalInput').value=value||'';$('modalExtra').innerHTML=extra;$('modal').classList.add('show');
- const delBtn=$('modalExtra').querySelector('[data-delete-track]');
- if(delBtn)delBtn.onclick=()=>{if(confirm('ยืนยันลบเพลงนี้?'))deleteFn?.()};
- modalAction=async()=>{const v=$('modalInput').value.trim();if(!v){toast('กรุณากรอกข้อมูล');return}await save(v);if(afterSave)await afterSave();$('modal').classList.remove('show')};
-}
-function openTrackMenu(t){
- const extra=`<label>ศิลปิน</label><input id="extraArtist" value="${esc(t.artist||'')}" placeholder="ชื่อศิลปิน"><label>อัลบั้ม</label><input id="extraAlbum" value="${esc(t.album||'')}" placeholder="ชื่ออัลบั้ม"><label>แนวเพลง</label><select id="extraGenre">${GENRES.map(x=>`<option ${t.genre===x?'selected':''}>${x}</option>`).join('')}</select><label>โฟลเดอร์จัดเก็บ</label><select id="extraFolder"><option value="">เพลงยังไม่จัดหมวด</option>${folders.map(f=>`<option value="${f.id}" ${t.folderId===f.id?'selected':''}>${esc(f.name)}</option>`).join('')}</select><button class="smallBtn" data-delete-track style="margin-top:8px">ลบเพลงนี้</button>`;
- showModal('จัดการเพลง','ชื่อเพลง',t.title,async name=>{t.title=name;t.artist=$('extraArtist').value.trim();t.album=$('extraAlbum').value.trim();t.genre=$('extraGenre').value;t.folderId=$('extraFolder').value||null;await put('tracks',t);await refresh();toast('บันทึกข้อมูลเพลงแล้ว')},extra,null,async()=>{await del('tracks',t.id);if(currentId===t.id){audio.pause();currentId=null;updateNow()}await refresh();$('modal').classList.remove('show');toast('ลบเพลงแล้ว')});
-}
-$('saveModal').onclick=()=>modalAction&&modalAction();$('cancelModal').onclick=()=>$('modal').classList.remove('show');
-function createFolder(){showModal('สร้างโฟลเดอร์ใหม่','ชื่อโฟลเดอร์','',async name=>{if(folders.some(f=>f.name.toLowerCase()===name.toLowerCase())){toast('มีโฟลเดอร์ชื่อนี้แล้ว');return}await put('folders',{id:uid(),name});await refresh();toast('สร้างโฟลเดอร์แล้ว')})}
-$('newFolder').onclick=createFolder;
-function showView(view){
- currentView=view;document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
- $('homeHero').style.display=view==='home'?'flex':'none';$('albumsSection').style.display=view==='home'?'block':'none';$('contentView').classList.toggle('active',view!=='home');
- if(view!=='home')renderView(view);
-}
-function renderView(view){
- const titles={songs:'♫ เพลงทั้งหมด',folders:'📁 โฟลเดอร์เพลง',playlists:'☷ เพลย์ลิสต์ของฉัน',favorites:'♡ รายการโปรด',albums:'💿 อัลบั้ม',artists:'♟ ศิลปิน',genres:'♫ แนวเพลง',radio:'◉ วิทยุยุค 80'};
- $('viewTitle').textContent=titles[view]||'คลังเพลง';
- const tb=$('viewToolbar');tb.innerHTML='';
- const add=(label,fn)=>{const b=document.createElement('button');b.className='action';b.textContent=label;b.onclick=fn;tb.append(b)};
- add('＋ เพิ่มเพลง',()=>{pendingFolder=null;pendingGenre=null;$('audioFiles').click()});
- add('📁 สร้างโฟลเดอร์',createFolder);
- if(view==='playlists')add('＋ สร้างเพลย์ลิสต์',createPlaylist);
- if(view==='radio')add('▶ เริ่มวิทยุสุ่มเพลง',startRadio);
- if(view==='folders')add('＋ สร้างโฟลเดอร์',createFolder);
- const list=$('viewList');list.innerHTML='';
- if(view==='songs')renderSongList(tracks,list);
- else if(view==='favorites')renderSongList(tracks.filter(t=>t.favorite),list);
- else if(view==='folders'){
-  folders.forEach(f=>{const d=document.createElement('div');d.className='songRow';d.innerHTML=`📁 <div class="folderMeta"><b>${esc(f.name)}</b><small>${tracks.filter(t=>t.folderId===f.id).length} เพลง</small></div><button class="smallBtn">เปิด</button><button class="smallBtn">แก้ไข</button><button class="smallBtn">ลบ</button>`;const bs=d.querySelectorAll('button');bs[0].onclick=()=>renderFolderView(f.id);bs[1].onclick=()=>showModal('เปลี่ยนชื่อโฟลเดอร์','ชื่อใหม่',f.name,async n=>{f.name=n;await put('folders',f);await refresh()});bs[2].onclick=async()=>{if(confirm('ลบโฟลเดอร์นี้? เพลงจะยังอยู่ในคลังเพลง')){for(const t of tracks.filter(t=>t.folderId===f.id)){t.folderId=null;await put('tracks',t)}await del('folders',f.id);await refresh()}};list.append(d)})
- }else if(view==='playlists'){
-  playlists.forEach(p=>{const d=document.createElement('div');d.className='songRow';d.innerHTML=`☷ <div class="folderMeta"><b>${esc(p.name)}</b><small>${p.trackIds.length} เพลง</small></div><button class="smallBtn">เปิด</button><button class="smallBtn">ลบ</button>`;const bs=d.querySelectorAll('button');bs[0].onclick=()=>renderPlaylist(p.id);bs[1].onclick=async()=>{if(confirm('ลบเพลย์ลิสต์นี้?')){await del('playlists',p.id);await refresh()}};list.append(d)})
- }else if(view==='albums'){
-  const names=[...new Set(tracks.map(t=>t.album||'ไม่ระบุอัลบั้ม'))];names.forEach(n=>{const d=document.createElement('div');d.className='songRow';d.textContent='💿 '+n;d.onclick=()=>renderSongList(tracks.filter(t=>(t.album||'ไม่ระบุอัลบั้ม')===n),list);list.append(d)})
- }else if(view==='artists'){
-  [...new Set(tracks.map(t=>t.artist||'ไม่ระบุศิลปิน'))].forEach(n=>{const d=document.createElement('div');d.className='songRow';d.textContent='♟ '+n;d.onclick=()=>renderSongList(tracks.filter(t=>(t.artist||'ไม่ระบุศิลปิน')===n),list);list.append(d)})
- }else if(view==='genres'){
-  [...new Set([...GENRES,...tracks.map(t=>t.genre||'ไม่ระบุแนวเพลง')])].forEach(n=>{const d=document.createElement('div');d.className='songRow';d.textContent='♫ '+n+' · '+tracks.filter(t=>t.genre===n).length+' เพลง';d.onclick=()=>showGenre(n);list.append(d)})
- }else if(view==='radio'){list.innerHTML='<div class="empty">เปิดโหมดวิทยุยุค 80 สุ่มเพลงจากคลังเพลงของคุณ</div>'}
- if(!list.children.length)list.innerHTML='<div class="empty">ยังไม่มีข้อมูลในส่วนนี้<br>กด “เพิ่มเพลง” หรือสร้างโฟลเดอร์เพื่อเริ่มต้น</div>';
-}
-function renderSongList(items,container){container.innerHTML='';if(!items.length){container.innerHTML='<div class="empty">ยังไม่มีเพลงในรายการนี้<br>กด “เพิ่มเพลง” เพื่อเลือกไฟล์เพลงจากอุปกรณ์</div>';return}items.forEach((t,i)=>container.append(songRow(t,i)))}
-function renderFolderView(id){
- const f=folders.find(x=>x.id===id);if(!f)return;showView('folders');$('viewTitle').textContent='📁 '+f.name;$('viewToolbar').innerHTML='';
- const add=document.createElement('button');add.className='action';add.textContent='＋ เพิ่มเพลงเข้าโฟลเดอร์';add.onclick=()=>{pendingFolder=id;pendingGenre=null;$('audioFiles').click()};$('viewToolbar').append(add);
- const makeFolder=document.createElement('button');makeFolder.className='smallBtn';makeFolder.textContent='📁 สร้างโฟลเดอร์';makeFolder.onclick=createFolder;$('viewToolbar').append(makeFolder);
- const back=document.createElement('button');back.className='smallBtn';back.textContent='← กลับไปโฟลเดอร์';back.onclick=()=>renderView('folders');$('viewToolbar').append(back);
- renderSongList(tracks.filter(t=>t.folderId===id),$('viewList'));
-}
-function createPlaylist(){showModal('สร้างเพลย์ลิสต์','ชื่อเพลย์ลิสต์','',async name=>{await put('playlists',{id:uid(),name,trackIds:[]});await refresh();toast('สร้างเพลย์ลิสต์แล้ว')})}
-function renderPlaylist(id){
- const p=playlists.find(x=>x.id===id);if(!p)return;showView('playlists');$('viewTitle').textContent='☷ '+p.name;$('viewToolbar').innerHTML='';
- const add=document.createElement('button');add.className='action';add.textContent='＋ เพิ่มเพลงในเพลย์ลิสต์';add.onclick=()=>{
-  const choices=tracks.filter(t=>!p.trackIds.includes(t.id));if(!choices.length)return toast('ไม่มีเพลงให้เพิ่ม');
-  const opts=choices.map(t=>`<option value="${t.id}">${esc(t.title)} — ${esc(t.artist||'')}</option>`).join('');
-  showModal('เพิ่มเพลงในเพลย์ลิสต์','ชื่อรายการ','เพิ่มเพลง',async()=>{},`<select id="chooseTrack">${opts}</select>`,async()=>{const trackId=$('chooseTrack').value;if(trackId&&!p.trackIds.includes(trackId))p.trackIds.push(trackId);await put('playlists',p);renderPlaylist(p.id)});
- };$('viewToolbar').append(add);
- const allBtn=document.createElement('button');allBtn.className='smallBtn';allBtn.textContent='▶ เล่นเพลย์ลิสต์';allBtn.onclick=()=>{queue=p.trackIds.slice();queueIndex=0;if(queue.length)playTrack(queue[0]);else toast('เพลย์ลิสต์ยังไม่มีเพลง')};$('viewToolbar').append(allBtn);
- renderSongList(p.trackIds.map(tid=>tracks.find(t=>t.id===tid)).filter(Boolean),$('viewList'));
-}
-function showGenre(g){showView('genres');$('viewTitle').textContent='♫ '+g;$('viewToolbar').innerHTML='';const b=document.createElement('button');b.className='action';b.textContent='＋ เพิ่มเพลงในหมวดนี้';b.onclick=()=>{pendingGenre=g;pendingFolder=folders.find(f=>f.name===g)?.id||null;$('audioFiles').click()};$('viewToolbar').append(b);const back=document.createElement('button');back.className='smallBtn';back.textContent='← กลับไปแนวเพลง';back.onclick=()=>renderView('genres');$('viewToolbar').append(back);renderSongList(tracks.filter(t=>t.genre===g),$('viewList'))}
-let activeGenre=null;
-function startRadio(){if(!tracks.length)return toast('กรุณาเพิ่มเพลงก่อน');queue=[...tracks].sort(()=>Math.random()-.5).map(t=>t.id);queueIndex=0;playTrack(queue[0]);toast('เริ่มวิทยุสุ่มเพลงแล้ว')}
-$('audioFiles').onchange=async e=>{
- const files=[...e.target.files];let count=0;
- for(const file of files){
-  if(!file.type.startsWith('audio/'))continue;
-  const url=URL.createObjectURL(file);
-  const duration=await new Promise(resolve=>{const a=new Audio();a.preload='metadata';a.onloadedmetadata=()=>resolve(a.duration||0);a.onerror=()=>resolve(0);a.src=url});
-  URL.revokeObjectURL(url);
-  const genre=pendingGenre||'เพลงไทยยุค 80s';
-  let folderId=pendingFolder||folders.find(f=>f.name===genre)?.id||folders.find(f=>f.name==='เพลงยังไม่จัดหมวด')?.id||null;
-  await put('tracks',{id:uid(),title:file.name.replace(/\.[^.]+$/,''),artist:'',album:'',genre,duration,folderId,favorite:false,blob:file,mime:file.type});count++;
+async function put(store,obj){
+ if(cloudConfigured&&(store==='tracks'||store==='folders')){
+  if(store==='tracks'){const row={id:obj.id,title:obj.title,artist:obj.artist||'',album:obj.album||'',genre:obj.genre||'',duration:Number(obj.duration||0),folder_id:obj.folderId||null,audio_path:obj.audio_path,mime_type:obj.mime||'audio/mpeg'};const {error}=await sb.from('tracks').upsert(row);if(error)throw error;return;}
+  const {error}=await sb.from('folders').upsert({id:obj.id,name:obj.name});if(error)throw error;return;
  }
- pendingFolder=null;pendingGenre=null;e.target.value='';await refresh();toast(`เพิ่มเพลง ${count} ไฟล์แล้ว`);
-};
-$('importTop').onclick=()=>{pendingFolder=null;pendingGenre=null;$('audioFiles').click()};
-function updateNow(){const t=tracks.find(x=>x.id===currentId);$('nowTitle').textContent=t?.title||'ยังไม่ได้เลือกเพลง';$('nowArtist').textContent=t?.artist||'เพิ่มเพลงของคุณเพื่อเริ่มฟัง';$('nowAlbum').textContent=t?.album||'ToeyMusic • 80s';$('nowHeart').textContent=t?.favorite?'♥':'♡';$('play').textContent=audio.paused?'▶':'Ⅱ'}
-async function playTrack(id){
- const t=tracks.find(x=>x.id===id);if(!t)return;currentId=id;if(!queue.length)queue=tracks.map(x=>x.id);queueIndex=queue.indexOf(id);if(queueIndex<0){queue.push(id);queueIndex=queue.length-1}
- if(activeObjectUrl)URL.revokeObjectURL(activeObjectUrl);activeObjectUrl=URL.createObjectURL(t.blob);audio.src=activeObjectUrl;audio.volume=+$('volume').value;
- try{await audio.play()}catch(e){toast('เบราว์เซอร์ไม่สามารถเล่นไฟล์นี้ได้')}updateNow();renderQueue()
+ return new Promise((res,rej)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(obj);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)});
 }
-function renderQueue(){
- const box=$('queueList');box.innerHTML='';const ids=queue.length?queue:tracks.slice(0,5).map(t=>t.id);
- ids.slice(0,8).forEach((id,i)=>{const t=tracks.find(x=>x.id===id);if(!t)return;const d=document.createElement('div');d.className='songRow';d.innerHTML=`<span>${i+1}</span><div class="cover">🎵</div><div class="folderMeta"><b>${esc(t.title)}</b><small>${esc(t.artist||'ไม่ระบุศิลปิน')}</small></div><button class="heart">${t.favorite?'♥':'♡'}</button>`;d.querySelector('.folderMeta').onclick=()=>playTrack(id);d.querySelector('.cover').onclick=()=>playTrack(id);d.querySelector('.heart').onclick=async()=>{t.favorite=!t.favorite;await put('tracks',t);await refresh()};box.append(d)})
+async function del(store,id){
+ if(cloudConfigured&&(store==='tracks'||store==='folders')){if(store==='tracks'){const t=tracks.find(x=>x.id===id);if(t?.audio_path){const {error:se}=await sb.storage.from('music-files').remove([t.audio_path]);if(se)throw se;}}const {error}=await sb.from(store).delete().eq('id',id);if(error)throw error;return;}
+ return new Promise((res,rej)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).delete(id);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)});
 }
-$('play').onclick=()=>{if(!currentId){if(tracks.length)playTrack(tracks[0].id);else toast('กรุณาเพิ่มเพลงก่อน');return}if(audio.paused)audio.play().catch(()=>toast('ไม่สามารถเล่นเพลงนี้ได้'));else audio.pause();updateNow()};
+async function uploadCloudTrack(file,folderId){
+ const id=uid(),safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_'),path=`${id}/${safeName}`;
+ const {error:ue}=await sb.storage.from('music-files').upload(path,file,{contentType:file.type||'audio/mpeg',upsert:false,cacheControl:'3600'});if(ue)throw ue;
+ const temp=URL.createObjectURL(file);const duration=await new Promise(resolve=>{const a=new Audio();a.preload='metadata';a.onloadedmetadata=()=>resolve(a.duration||0);a.onerror=()=>resolve(0);a.src=temp});URL.revokeObjectURL(temp);
+ const row={id,title:file.name.replace(/\.[^.]+$/,''),artist:'',album:'',genre:'เพลงไทยยุค 80s',duration,folder_id:folderId||null,audio_path:path,mime_type:file.type||'audio/mpeg'};
+ const {error}=await sb.from('tracks').insert(row);if(error){await sb.storage.from('music-files').remove([path]);throw error;}
+}
+async function cloudAudioUrl(track){if(!track.audio_path)return '';const {data}=sb.storage.from('music-files').getPublicUrl(track.audio_path);return data.publicUrl}
+async function refreshAdminState(){if(!cloudConfigured){isAdmin=false;cloudSession=null;return;}const {data:{session}}=await sb.auth.getSession();cloudSession=session;isAdmin=false;if(session?.user?.id){const {data,error}=await sb.from('admin_users').select('user_id').eq('user_id',session.user.id).maybeSingle();isAdmin=!!data&&!error;}updateAdminUI()}
+function updateAdminUI(){const b=$('cloudLogin');if(b)b.textContent=cloudSession?(isAdmin?'ออกจากระบบผู้ดูแล':'ออกจากระบบ'):'เข้าสู่ระบบผู้ดูแล';const canManage=isAdmin||!cloudConfigured;$('importTop').style.display=canManage?'':'none';$('newFolder').style.display=canManage?'':'none';$('storageHint').textContent=cloudConfigured?'คลังเพลงส่วนกลาง ToeyMusic • ทุกอุปกรณ์ใช้คลังเพลงเดียวกัน':'โหมดทดลองในเครื่อง • ตั้งค่า Supabase เพื่อเปิดคลังเพลงส่วนกลาง'}
+async function handleAdminButton(){if(!cloudConfigured){toast('ยังไม่ได้ตั้งค่า Supabase กรุณาดูคู่มือในไฟล์ ZIP');return;}if(cloudSession){await sb.auth.signOut();await refreshAdminState();toast('ออกจากระบบแล้ว');return;}const email=prompt('อีเมลผู้ดูแลระบบ');if(!email)return;const password=prompt('รหัสผ่าน');if(!password)return;const {error}=await sb.auth.signInWithPassword({email,password});if(error){toast('เข้าสู่ระบบไม่สำเร็จ: '+error.message);return;}await refreshAdminState();await refresh();toast(isAdmin?'เข้าสู่ระบบผู้ดูแลสำเร็จ':'บัญชีนี้ยังไม่ได้รับสิทธิ์ผู้ดูแล')}
+function uid(){return crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random()}
+function fmt(s){if(!isFinite(s))return'0:00';return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0')}
+async function refresh(){tracks=await all('tracks');folders=await all('folders');playlists=await localAll('playlists');renderAll()}
+function renderAll(){renderFolders();renderAlbums();renderQueue();if(currentView!=='home')renderView(currentView)}
+function renderFolders(){const box=$('folderMini');box.innerHTML='';if(!folders.length){box.innerHTML='<div class="hint">ยังไม่มีโฟลเดอร์ กด + เพื่อสร้าง</div>';return}folders.forEach(f=>{const n=tracks.filter(t=>t.folderId===f.id).length;const el=document.createElement('div');el.className='folderRow';el.innerHTML=`<span class="folderIcon">📁</span><div class="folderMeta"><b>${esc(f.name)}</b><small>${n} เพลง</small></div><button class="heart" title="เปิดโฟลเดอร์">›</button>`;el.onclick=()=>{currentView='folder:'+f.id;renderFolderView(f.id)};box.append(el)})}
+function renderAlbums(){const box=$('albumGrid');box.innerHTML='';const groups=[['เพลงทั้งหมด','💿',tracks.length],...['ฮิตติดชาร์ต 80s','เพลงรัก 80s','แดนซ์-ดิสโก้ 80s','เพลงไทยยุค 80s','สากลคลาสสิก','ร็อก 80s','ป็อป 80s'].map((g,i)=>[g,icons[i],tracks.filter(t=>t.genre===g).length])];groups.forEach((g,i)=>{const el=document.createElement('div');el.className='album';const cover=albumCovers[Math.min(i,albumCovers.length-1)];el.innerHTML=`<div class="albumArt"><img src="${cover}" alt=""></div><b>${esc(g[0])}</b><small>${g[2]} เพลง</small>`;el.onclick=()=>{if(i===0)showView('songs');else showGenre(g[0])};box.append(el)})}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function songRow(t,idx){const el=document.createElement('div');el.className='songRow';el.innerHTML=`<span style="width:22px;color:#c9b4df">${idx+1}</span><div class="cover">🎵</div><div class="folderMeta"><b>${esc(t.title)}</b><small>${esc(t.artist||'ไม่ระบุศิลปิน')} • ${esc(t.album||'ไม่ระบุอัลบั้ม')}</small></div><small>${fmt(t.duration||0)}</small><button class="heart" title="รายการโปรด">${t.favorite?'♥':'♡'}</button><button class="heart" title="เมนูเพลง">⋮</button>`;el.querySelector('.cover').onclick=()=>playTrack(t.id);el.querySelector('.folderMeta').onclick=()=>playTrack(t.id);const heart=el.querySelector('.heart');heart.onclick=async e=>{e.stopPropagation();await setFavorite(t)};const more=el.querySelectorAll('.heart')[1];if(cloudConfigured&&!isAdmin){more.remove()}else{more.onclick=e=>{e.stopPropagation();openTrackMenu(t)}}return el}
+function openTrackMenu(t){showModal('จัดการเพลง', 'ชื่อเพลง', t.title, async name=>{t.title=name;await put('tracks',t);await refresh()},`<label>ศิลปิน</label><input id="extraArtist" value="${esc(t.artist||'')}" placeholder="ชื่อศิลปิน"><label>อัลบั้ม</label><input id="extraAlbum" value="${esc(t.album||'')}" placeholder="ชื่ออัลบั้ม"><label>แนวเพลง</label><select id="extraGenre">${['เพลงไทยยุค 80s','เพลงรัก 80s','แดนซ์-ดิสโก้ 80s','สากลคลาสสิก','ร็อก 80s','ป็อป 80s','เพลงช้าอมตะ','ฮิตติดชาร์ต 80s'].map(x=>`<option ${t.genre===x?'selected':''}>${x}</option>`).join('')}</select><label>โฟลเดอร์</label><select id="extraFolder"><option value="">ไม่จัดเก็บในโฟลเดอร์</option>${folders.map(f=>`<option value="${f.id}" ${t.folderId===f.id?'selected':''}>${esc(f.name)}</option>`).join('')}</select><button class="smallBtn" id="deleteTrack" style="margin-top:8px">ลบเพลงนี้</button>`,async()=>{t.artist=$('extraArtist').value;t.album=$('extraAlbum').value;t.genre=$('extraGenre').value;t.folderId=$('extraFolder').value||null;await put('tracks',t);await refresh();toast('บันทึกข้อมูลเพลงแล้ว')},()=>{del('tracks',t.id).then(async()=>{if(currentId===t.id){audio.pause();currentId=null;updateNow()}await refresh();toast('ลบเพลงแล้ว')})})}
+function showModal(title,label,value,save,extra='',afterSave=null,deleteFn=null){$('modalTitle').textContent=title;$('modalLabel').textContent=label;$('modalInput').value=value||'';$('modalExtra').innerHTML=extra;$('modal').classList.add('show');modalAction=async()=>{const v=$('modalInput').value.trim();if(!v){toast('กรุณากรอกข้อมูล');return}await save(v);if(afterSave)await afterSave();$('modal').classList.remove('show')};if(deleteFn){setTimeout(()=>{const b=$('deleteTrack');if(b)b.onclick=()=>{if(confirm('ยืนยันลบเพลงนี้?')){deleteFn();$('modal').classList.remove('show')}}},0)}}
+$('saveModal').onclick=()=>modalAction&&modalAction();$('cancelModal').onclick=()=>$('modal').classList.remove('show');
+$('newFolder').onclick=()=>{if(cloudConfigured&&!isAdmin)return toast('เฉพาะผู้ดูแลระบบเท่านั้นที่สร้างโฟลเดอร์ได้');showModal('สร้างโฟลเดอร์ใหม่','ชื่อโฟลเดอร์','',async name=>{await put('folders',{id:uid(),name});await refresh();toast('สร้างโฟลเดอร์แล้ว')})};
+function showView(view){currentView=view;document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));$('homeHero').style.display=view==='home'?'flex':'none';$('albumsSection').style.display=view==='home'?'block':'none';$('contentView').classList.toggle('active',view!=='home');if(view!=='home')renderView(view)}
+function renderView(view){const titles={songs:'♫ เพลงทั้งหมด',folders:'📁 โฟลเดอร์เพลง',playlists:'☷ เพลย์ลิสต์ของฉัน',favorites:'♡ รายการโปรด',albums:'💿 อัลบั้ม',artists:'♟ ศิลปิน',genres:'♫ แนวเพลง',radio:'◉ วิทยุยุค 80'};$('viewTitle').textContent=titles[view]||'คลังเพลง';const tb=$('viewToolbar');tb.innerHTML='';const add=(label,fn)=>{const b=document.createElement('button');b.className='action';b.textContent=label;b.onclick=fn;tb.append(b)};if(view==='playlists'||(!cloudConfigured||isAdmin)&&(view==='songs'||view==='folders'))add(view==='folders'?'＋ สร้างโฟลเดอร์':view==='playlists'?'＋ สร้างเพลย์ลิสต์':'＋ เพิ่มเพลง',()=>view==='folders'?$('newFolder').click():view==='playlists'?createPlaylist():$('audioFiles').click());const list=$('viewList');list.innerHTML='';if(view==='songs')renderSongList(tracks,list);else if(view==='favorites')renderSongList(tracks.filter(t=>t.favorite),list);else if(view==='folders'){folders.forEach(f=>{const d=document.createElement('div');d.className='songRow';d.innerHTML=`📁 <div class="folderMeta"><b>${esc(f.name)}</b><small>${tracks.filter(t=>t.folderId===f.id).length} เพลง</small></div><button class="smallBtn">เปิด</button>${isAdmin?'<button class="smallBtn">แก้ไข</button><button class="smallBtn">ลบ</button>':''}`;const bs=d.querySelectorAll('button');bs[0].onclick=()=>renderFolderView(f.id);if(isAdmin){bs[1].onclick=()=>showModal('เปลี่ยนชื่อโฟลเดอร์','ชื่อใหม่',f.name,async n=>{f.name=n;await put('folders',f);await refresh()});bs[2].onclick=async()=>{if(confirm('ลบโฟลเดอร์นี้? เพลงจะยังอยู่ในคลังเพลง')){for(const t of tracks.filter(t=>t.folderId===f.id)){t.folderId=null;await put('tracks',t)}await del('folders',f.id);await refresh()}}}list.append(d)})}else if(view==='playlists'){playlists.forEach(p=>{const d=document.createElement('div');d.className='songRow';d.innerHTML=`☷ <div class="folderMeta"><b>${esc(p.name)}</b><small>${p.trackIds.length} เพลง</small></div><button class="smallBtn">เปิด</button><button class="smallBtn">ลบ</button>`;const bs=d.querySelectorAll('button');bs[0].onclick=()=>renderPlaylist(p.id);bs[1].onclick=async()=>{if(confirm('ลบเพลย์ลิสต์นี้?')){await del('playlists',p.id);await refresh()}};list.append(d)})}else if(view==='albums'){const names=[...new Set(tracks.map(t=>t.album||'ไม่ระบุอัลบั้ม'))];names.forEach(n=>{const d=document.createElement('div');d.className='songRow';d.textContent='💿 '+n;d.onclick=()=>renderSongList(tracks.filter(t=>(t.album||'ไม่ระบุอัลบั้ม')===n),list);list.append(d)})}else if(view==='artists'){[...new Set(tracks.map(t=>t.artist||'ไม่ระบุศิลปิน'))].forEach(n=>{const d=document.createElement('div');d.className='songRow';d.textContent='♟ '+n;d.onclick=()=>renderSongList(tracks.filter(t=>(t.artist||'ไม่ระบุศิลปิน')===n),list);list.append(d)})}else if(view==='genres'){[...new Set(tracks.map(t=>t.genre||'ไม่ระบุแนวเพลง'))].forEach(n=>{const d=document.createElement('div');d.className='songRow';d.textContent='♫ '+n;d.onclick=()=>renderSongList(tracks.filter(t=>(t.genre||'ไม่ระบุแนวเพลง')===n),list);list.append(d)})}else if(view==='radio'){list.innerHTML='<div class="empty">เปิดโหมดวิทยุยุค 80 สุ่มเพลงจากคลังเพลงของคุณ</div>';add('▶ เริ่มวิทยุสุ่มเพลง',()=>{if(!tracks.length)return toast('กรุณาเพิ่มเพลงก่อน');queue=[...tracks].sort(()=>Math.random()-.5).map(t=>t.id);queueIndex=0;playTrack(queue[0])})}if(!list.children.length)list.innerHTML='<div class="empty">ยังไม่มีข้อมูลในส่วนนี้<br>กด “เพิ่มเพลง” หรือสร้างโฟลเดอร์เพื่อเริ่มต้น</div>'}
+function renderSongList(items,container){if(!items.length){container.innerHTML='<div class="empty">ยังไม่มีเพลงในรายการนี้<br>กด “เพิ่มเพลง” เพื่อเลือกไฟล์เพลงจากอุปกรณ์</div>';return}items.forEach((t,i)=>container.append(songRow(t,i)))}
+function renderFolderView(id){const f=folders.find(x=>x.id===id);if(!f)return;showView('songs');$('viewTitle').textContent='📁 '+f.name;$('viewToolbar').innerHTML='';if(!cloudConfigured||isAdmin){const b=document.createElement('button');b.className='action';b.textContent='＋ เพิ่มเพลงเข้าโฟลเดอร์';b.onclick=()=>{pendingFolder=id;$('audioFiles').click()};$('viewToolbar').append(b);}$('viewList').innerHTML='';renderSongList(tracks.filter(t=>t.folderId===id),$('viewList'))}
+function createPlaylist(){showModal('สร้างเพลย์ลิสต์','ชื่อเพลย์ลิสต์','',async name=>{await put('playlists',{id:uid(),name,trackIds:[]});await refresh();toast('สร้างเพลย์ลิสต์แล้ว')})}
+function renderPlaylist(id){const p=playlists.find(x=>x.id===id);if(!p)return;showView('playlists');$('viewTitle').textContent='☷ '+p.name;$('viewToolbar').innerHTML='';const add=document.createElement('button');add.className='action';add.textContent='＋ เพิ่มเพลงในเพลย์ลิสต์';add.onclick=()=>{const choices=tracks.filter(t=>!p.trackIds.includes(t.id));if(!choices.length)return toast('ไม่มีเพลงให้เพิ่ม');const opts=choices.map(t=>`<option value="${t.id}">${esc(t.title)} — ${esc(t.artist||'')}</option>`).join('');showModal('เพิ่มเพลง','ยืนยันการเพิ่มเพลง','เพิ่มเพลง',async()=>{},`<select id="chooseTrack">${opts}</select>`,async()=>{p.trackIds.push($('chooseTrack').value);await put('playlists',p);renderPlaylist(id)})};$('viewToolbar').append(add);$('viewList').innerHTML='';renderSongList(p.trackIds.map(id=>tracks.find(t=>t.id===id)).filter(Boolean),$('viewList'))}
+function showGenre(g){showView('songs');$('viewTitle').textContent='♫ '+g;$('viewList').innerHTML='';renderSongList(tracks.filter(t=>t.genre===g),$('viewList'))}
+let pendingFolder=null;
+$('audioFiles').onchange=async e=>{const files=[...e.target.files];let added=0;try{for(const file of files){if(!file.type.startsWith('audio/'))continue;if(cloudConfigured){if(!isAdmin)throw new Error('เฉพาะผู้ดูแลระบบเท่านั้นที่อัปโหลดเพลงได้');await uploadCloudTrack(file,pendingFolder)}else{const url=URL.createObjectURL(file);const duration=await new Promise(resolve=>{const a=new Audio();a.preload='metadata';a.onloadedmetadata=()=>resolve(a.duration||0);a.onerror=()=>resolve(0);a.src=url});URL.revokeObjectURL(url);await put('tracks',{id:uid(),title:file.name.replace(/\.[^.]+$/,''),artist:'',album:'',genre:'เพลงไทยยุค 80s',duration,folderId:pendingFolder,favorite:false,blob:file,mime:file.type})}added++}}catch(err){toast('เพิ่มเพลงไม่สำเร็จ: '+err.message)}pendingFolder=null;e.target.value='';await refresh();toast(`เพิ่มเพลงสำเร็จ ${added} ไฟล์`)};
+$('importTop').onclick=()=>{if(cloudConfigured&&!isAdmin)return toast('กรุณาเข้าสู่ระบบผู้ดูแลก่อน');$('audioFiles').click()};
+$('cloudLogin').onclick=handleAdminButton;
+function updateNow(){const t=tracks.find(x=>x.id===currentId);$('nowTitle').textContent=t?.title||'ยังไม่ได้เลือกเพลง';$('nowArtist').textContent=t?.artist||'เพิ่มเพลงของคุณเพื่อเริ่มฟัง';$('nowAlbum').textContent=t?.album||'ร้านบ้านกำนัล • 80s';$('nowHeart').textContent=t?.favorite?'♥':'♡';$('play').textContent=audio.paused?'▶':'Ⅱ'}
+async function playTrack(id){const t=tracks.find(x=>x.id===id);if(!t)return;currentId=id;if(!queue.length){queue=tracks.map(x=>x.id)}queueIndex=queue.indexOf(id);if(queueIndex<0){queue.push(id);queueIndex=queue.length-1}if(audio.src&&audio.src.startsWith('blob:'))URL.revokeObjectURL(audio.src);audio.src=cloudConfigured?await cloudAudioUrl(t):URL.createObjectURL(t.blob);audio.volume=+$('volume').value;try{await audio.play()}catch(e){toast('เบราว์เซอร์ไม่สามารถเล่นไฟล์นี้ได้')}updateNow();renderQueue()}
+function renderQueue(){const box=$('queueList');box.innerHTML='';const ids=queue.length?queue:tracks.slice(0,5).map(t=>t.id);ids.slice(0,8).forEach((id,i)=>{const t=tracks.find(x=>x.id===id);if(!t)return;const d=document.createElement('div');d.className='songRow';d.innerHTML=`<span>${i+1}</span><div class="cover">🎵</div><div class="folderMeta"><b>${esc(t.title)}</b><small>${esc(t.artist||'ไม่ระบุศิลปิน')}</small></div><button class="heart">${t.favorite?'♥':'♡'}</button>`;d.querySelector('.folderMeta').onclick=()=>playTrack(id);d.querySelector('.cover').onclick=()=>playTrack(id);d.querySelector('.heart').onclick=async()=>{await setFavorite(t)};box.append(d)})}
+$('play').onclick=()=>{if(!currentId){if(tracks.length)playTrack(tracks[0].id);else toast('กรุณาเพิ่มเพลงก่อน');return}if(audio.paused)audio.play();else audio.pause();updateNow()};
 $('prev').onclick=()=>step(-1);$('next').onclick=()=>step(1);
 function step(dir){if(!queue.length)queue=tracks.map(t=>t.id);if(!queue.length)return toast('ยังไม่มีเพลง');if(shuffleOn&&dir>0)queueIndex=Math.floor(Math.random()*queue.length);else queueIndex=(queueIndex+dir+queue.length)%queue.length;playTrack(queue[queueIndex])}
 $('shuffle').onclick=()=>{shuffleOn=!shuffleOn;$('shuffle').style.color=shuffleOn?'#ff55d7':'white';toast(shuffleOn?'เปิดสุ่มเพลง':'ปิดสุ่มเพลง')};
-$('repeat').onclick=()=>{repeatOn=!repeatOn;$('repeat').style.color=repeatOn?'#ff55d7':'white';toast(repeatOn?'เปิดเล่นซ้ำเพลงปัจจุบัน':'ปิดเล่นซ้ำ')};
-$('nowHeart').onclick=async()=>{const t=tracks.find(x=>x.id===currentId);if(!t)return;t.favorite=!t.favorite;await put('tracks',t);await refresh()};
+$('repeat').onclick=()=>{repeatOn=!repeatOn;$('repeat').style.color=repeatOn?'#ff55d7':'white';toast(repeatOn?'เปิดเล่นซ้ำ':'ปิดเล่นซ้ำ')};
+$('nowHeart').onclick=async()=>{const t=tracks.find(x=>x.id===currentId);if(!t)return;await setFavorite(t)};
 $('volume').oninput=e=>{audio.volume=+e.target.value;$('volLabel').textContent=Math.round(audio.volume*100)+'%'};
 audio.ontimeupdate=()=>{if(audio.duration){$('seek').value=audio.currentTime/audio.duration*100;$('elapsed').textContent=fmt(audio.currentTime);$('duration').textContent=fmt(audio.duration)}};
 $('seek').oninput=e=>{if(audio.duration)audio.currentTime=audio.duration*(+e.target.value/100)};
 audio.onplay=updateNow;audio.onpause=updateNow;audio.onended=()=>{if(repeatOn){audio.currentTime=0;audio.play()}else step(1)};
 $('playAll').onclick=()=>{if(!tracks.length)return toast('ยังไม่มีเพลง');queue=tracks.map(t=>t.id);queueIndex=0;playTrack(queue[0])};
-$('search').oninput=e=>{
- const q=e.target.value.toLowerCase().trim();if(!q){if(currentView!=='home')renderView(currentView);return}
- showView('songs');$('viewTitle').textContent='ผลการค้นหา';$('viewToolbar').innerHTML='';$('viewList').innerHTML='';
- renderSongList(tracks.filter(t=>[t.title,t.artist,t.album,t.genre].join(' ').toLowerCase().includes(q)),$('viewList'));
-};
+$('search').oninput=e=>{const q=e.target.value.toLowerCase().trim();if(!q){if(currentView!=='home')renderView(currentView);return}showView('songs');$('viewTitle').textContent='ผลการค้นหา';$('viewToolbar').innerHTML='';$('viewList').innerHTML='';renderSongList(tracks.filter(t=>[t.title,t.artist,t.album,t.genre].join(' ').toLowerCase().includes(q)),$('viewList'))};
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
 document.querySelectorAll('[data-genre]').forEach(b=>b.addEventListener('click',()=>showGenre(b.dataset.genre)));
-async function init(){
- try{db=await openDB();await ensureDefaultFolders();await refresh();queue=tracks.map(t=>t.id);updateNow()}
- catch(e){console.error(e);toast('ไม่สามารถเปิดคลังเพลงได้ กรุณาใช้ Chrome หรือ Edge')}
-}
+$('sideMenu').addEventListener('click',e=>{const b=e.target.closest('[data-view]');if(b)showView(b.dataset.view)});
+async function init(){try{db=await openDB();if(cloudConfigured){await refreshAdminState();sb.auth.onAuthStateChange(()=>setTimeout(async()=>{await refreshAdminState();await refresh()},0));}else updateAdminUI();await refresh();queue=tracks.map(t=>t.id);updateNow();}catch(e){console.error(e);toast('เริ่มระบบไม่สำเร็จ: '+e.message)}}
 init();
 </script>
 </body></html>
